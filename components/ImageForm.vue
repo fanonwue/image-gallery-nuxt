@@ -185,9 +185,12 @@ onBeforeMount(async () => {
         </div>
         <div v-if="image" class="">
           <image-display class="max-h-screen" :image="image" :variant="imageVariant" />
-          <div class="w-full mt-5">
-            <SelectButton v-model="imageVariant" :options="variants"></SelectButton>
+          <div class="flex justify-center mt-5">
+            <SelectButton v-model="imageVariant" :options="variants" :allow-empty="false"></SelectButton>
           </div>
+        </div>
+        <div v-else class="flex items-center justify-center">
+          Upload your image to see a preview
         </div>
       </div>
     </template>
