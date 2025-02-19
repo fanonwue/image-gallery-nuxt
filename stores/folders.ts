@@ -1,10 +1,11 @@
-import {acceptHMRUpdate, defineStore, usePinia, useAsyncData} from "#imports";
+import {acceptHMRUpdate, defineStore, useAsyncData, useRequestFetch} from "#imports";
 import type {FolderDto} from "#shared/dto";
 
 
 export const useFoldersStore = defineStore('folders', () => {
-    const fetchFolders = () => $fetch<FolderDto[]>("/api/folders", {
-    })
+
+    const requestFetch = useRequestFetch()
+    const fetchFolders = () => requestFetch<FolderDto[]>("/api/folders")
     const foldersAsync = () => useAsyncData('folders', () => fetchFolders())
 
     return {

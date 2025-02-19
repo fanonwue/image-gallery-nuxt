@@ -3,7 +3,7 @@ import {Form} from "@primevue/forms";
 import {type ImageDto, type ImageVariant, imageVariants} from "#shared/dto";
 import {acceptedFileTypesString} from "#shared"
 import {$fetch, type FetchOptions} from "ofetch";
-import {toastWithDefault, useToast, computed, foldersAsync, useFoldersStore} from "#imports";
+import {toastWithDefault, useToast, computed, useFoldersStore} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
 import type {FileUploadSelectEvent} from "primevue";
 
