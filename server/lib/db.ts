@@ -1,4 +1,5 @@
 import {PrismaClient} from "@prisma/client";
+import {enableQueryLogging} from "#utils/server";
 
 
 export const prisma = new PrismaClient({
@@ -10,6 +11,7 @@ export const prisma = new PrismaClient({
     ]
 })
 
-prisma.$on("query", async (e) => {
-    console.log(`${e.query} ${e.params}`)
-});
+if (enableQueryLogging)
+    prisma.$on("query", async (e) => {
+        console.log(`${e.query} ${e.params}`)
+    });

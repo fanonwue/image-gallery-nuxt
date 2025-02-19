@@ -11,3 +11,5 @@ export const mimeTypeFromMultipartFile = (file: MultiPartData) => {
         ?? mime.getType(file.filename ?? "")
         ?? "application/octet-stream"
 }
+
+export const enableQueryLogging = false
