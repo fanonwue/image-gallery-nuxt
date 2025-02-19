@@ -1,8 +1,16 @@
 import crypto from 'node:crypto'
-import type {ImageDto, ImageFormat, ImageVariant} from "#shared/dto";
+import type {FolderDto, ImageDto, ImageFormat, ImageVariant} from "#shared/dto";
 import type {ImageMeta} from "@prisma/client";
-import {UpdateImagePayload, ImageWithMeta} from "~/server/lib/db-types";
-import {defaultThumbnailFormat, thumbnailFormats} from "#shared/dto";
+import {
+    UpdateImagePayload,
+    ImageWithMeta,
+    ImageWithMetaAndFolders,
+    ImageWithMetaAndFoldersDeep
+} from "~/server/lib/db-types";
+import {defaultThumbnailFormat} from "#shared/dto";
+import { toDto as toFolderDto } from "~/server/lib/folder-utils";
+import {Prisma} from "@prisma/client";
+import FolderGetPayload = Prisma.FolderGetPayload;
 
 const externalIdLength = 32
 
@@ -34,7 +42,7 @@ export const imageUrl = (image: ImageDto, variant: ImageVariant = 'original') =>
     return `/files/images/${image.id}?key=${image.externalId}&variant=${variant}&ts=${ts}`
 }
 
-export const toDto = (image: ImageWithMeta): ImageDto => {
+export const toDto = (image: ImageWithMeta|ImageWithMetaAndFolders|ImageWithMetaAndFoldersDeep): ImageDto => {
     const dto: ImageDto = {
         id: image.id,
         externalId: toExternalId(image.externalId),
@@ -50,6 +58,17 @@ export const toDto = (image: ImageWithMeta): ImageDto => {
         const meta: Record<string, string> = {}
         image.meta?.forEach((m: ImageMeta) => meta[m.name] = m.value)
         dto.meta = meta
+    }
+
+    if ('folders' in image) {
+        const folderIds = image.folders.map(f => f.folderId).filter(f => f)
+        const folders: FolderDto[] = []
+        image.folders.forEach(f => {
+            if (!('folder' in f)) return
+            folders.push(toFolderDto(f.folder as FolderGetPayload<any>))
+        })
+        dto.folderIds = folderIds
+        dto.folders = folderIds.length == folders.length ? folders : undefined
     }
 
     dto.originalUrl = imageUrl(dto, 'original')

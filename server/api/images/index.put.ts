@@ -3,7 +3,7 @@ import {ImageDto, NewImageSchema, parseJson} from "~/shared/dto";
 import {addMetaIfExists, generateExternalId, imageFilePath, toDto} from "~/server/lib/image-utils";
 import {prisma} from "~/server/lib/db";
 import {Image, Prisma} from "@prisma/client";
-import {user} from "#utils";
+import {currentUserId} from "#utils";
 import mime from "mime";
 import {imageUpdateRequestMultipart, isAcceptedMimeType, saveFile} from "~/server/api/images/image-operations";
 import {mimeTypeFromMultipartFile} from "#utils/server";
@@ -22,7 +22,7 @@ export default eventHandler(async (event): Promise<ImageDto> => {
     const data: Prisma.ImageUncheckedCreateInput = {
         title: imageMeta.title ?? "",
         description: imageMeta.description ?? "",
-        ownerId: user,
+        ownerId: currentUserId(),
         externalId: generateExternalId(),
         mimeType: mimeType
     }

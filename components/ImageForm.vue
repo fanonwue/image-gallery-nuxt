@@ -3,7 +3,7 @@ import {Form} from "@primevue/forms";
 import {type ImageDto, type ImageVariant, imageVariants} from "#shared/dto";
 import {acceptedFileTypesString} from "#shared"
 import {$fetch, type FetchOptions} from "ofetch";
-import {toastWithDefault, useToast, useFetch, computed} from "#imports";
+import {toastWithDefault, useToast, computed, foldersAsync, useFoldersStore} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
 import type {FileUploadSelectEvent} from "primevue";
 
@@ -14,7 +14,8 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'saved', image: ImageDto): void
+  (e: 'saved', image: ImageDto): void,
+  (e: 'deleted', imageId: ImageDto['id']): void
 }>()
 
 const headerText = computed(() => {
@@ -22,6 +23,8 @@ const headerText = computed(() => {
   return `Editing image ${props.image.id}`
 })
 
+const foldersStore = useFoldersStore()
+const { data: folders, refresh: refreshFolders } = await foldersStore.foldersAsync()
 const file = ref<File|undefined>()
 const fileSrc = ref<string|undefined>()
 const isBusy = ref(false)
@@ -32,7 +35,8 @@ const defaultImage = ref<ImageDto>({
   title: "",
   description: "",
   id: -1,
-  externalId: ""
+  externalId: "",
+  folderIds: []
 })
 
 const localImage = computed(() => {
@@ -60,8 +64,8 @@ const generateFetchOptions = (): FetchOptions<"json", any> => {
 }
 
 const onSave = async () => {
-  isBusy.value = true
   try {
+    isBusy.value = true
     const fetchOptions = generateFetchOptions()
     if (localImage.value!!.id > 0) {
       fetchOptions.method = "PATCH"
@@ -89,9 +93,29 @@ const onSave = async () => {
 }
 
 const onDelete = async () => {
-  isBusy.value = true
-  alert("NOT YET IMPLEMENTED")
-  isBusy.value = false
+  try {
+    isBusy.value = true
+    const confirmResult = confirm("Are you sure you want to delete this image?")
+    if (!confirmResult) return
+    const imageId = localImage.value.id
+    await $fetch(`/api/images/${imageId}`, {
+      method: "DELETE",
+    })
+    toastWithDefault(toast, {
+      summary: "Successfully deleted image",
+      detail: `Image ${imageId} was deleted`,
+      severity: "success"
+    })
+    emit('deleted', imageId)
+  } catch (_: unknown) {
+    toastWithDefault(toast, {
+      summary: "Failed to delete image",
+      detail: "An error occurred while deleting image",
+      severity: "error",
+    })
+  } finally {
+    isBusy.value = false
+  }
 }
 
 const onFileSelect = async (e: FileUploadSelectEvent) => {
@@ -120,6 +144,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
+  <Button @click="refreshFolders">Refresh Folders</Button>
   <Card>
     <template #title>
       <CardHeader>
@@ -146,6 +171,11 @@ onBeforeMount(async () => {
                 <img v-if="fileSrc" :src="fileSrc!!" alt="Image" class="shadow-md rounded-xl w-full sm:w-64 mx-auto" style="filter: grayscale(100%)" />
               </picture>
             </div>
+            <Divider />
+              <float-label variant="in">
+                <MultiSelect id="folder-select" filter  v-model="localImage.folderIds" :options="folders ?? []" option-label="name" option-value="id" class="w-full" />
+                <label for="folder-select">Folders</label>
+              </float-label>
             <Divider />
             <ButtonGroup class="w-full mt-3">
               <Button class="w-full" label="Save" type="button" :loading="isBusy" @click="onSave"></Button>

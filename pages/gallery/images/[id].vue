@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useFetch, useRoute, computed} from "#imports";
+import {useFetch, useRoute, computed, navigateTo} from "#imports";
 import type {ImageDto} from "#shared/dto";
 
 const route = useRoute()
@@ -12,11 +12,15 @@ const onSaved = async (image: ImageDto) => {
   imageResponse.value = image
 }
 
+const onDelete = () => {
+  return navigateTo(`/gallery/images`)
+}
+
 </script>
 
 <template>
   <div v-if="imageResponse" class="w-full">
-    <image-form :image="imageResponse" @saved="onSaved" />
+    <image-form :image="imageResponse" @saved="onSaved" @deleted="onDelete" />
   </div>
   <div v-else class="text-center">
     Loading...

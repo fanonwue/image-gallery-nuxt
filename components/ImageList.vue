@@ -2,18 +2,31 @@
 import type {GetImageQuery, ImageDto, QueryResult} from "#shared/dto";
 import {defaultPageSize} from "#utils";
 import type {PageState} from "primevue";
-import {ref} from "#imports";
+import {ref, useAsyncData, useFoldersStore, computed} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
 
 
 const pageSizes = [10, defaultPageSize, 50, 100]
 const pageSize = ref(pageSizes[0]);
 const page = ref(1)
+const foldersStore = useFoldersStore()
+const { data: folders, refresh: refreshFolders } = await foldersStore.foldersAsync()
+interface FoldersOptions { title: string, value: number|undefined } {}
+const foldersOptions = computed(() => {
+  const options: FoldersOptions[] = [{ title: "All", value: -1 }];
+  folders.value?.forEach(item => {
+    options.push({ title: item.name, value: item.id })
+  })
+  return options
+})
+const selectedFolder = ref<number|undefined>(-1)
+const selectedFolderQueryParam = computed(() => selectedFolder.value && selectedFolder.value > 0 ? selectedFolder.value : undefined)
 
 const queryParams = computed((): GetImageQuery => {
   return {
     page: page.value,
     pageSize: pageSize.value,
+    folders: selectedFolderQueryParam.value?.toString()
   }
 })
 const { data: imageResponse, refresh: refreshImages } = await useFetch("/api/images", {
@@ -30,11 +43,15 @@ const onPageEvent = (e: PageState) => {
 </script>
 
 <template>
+  <Button @click="refreshFolders">Refresh Folders</Button>
   <Card>
     <template #content>
       <CardHeader :separator="false">
         Your Gallery
       </CardHeader>
+
+      <label for="folder-select">Folder</label>
+      <Select id="folder-select" v-model="selectedFolder" :options="foldersOptions" option-label="title" option-value="value" checkmark fluid/>
     </template>
   </Card>
 

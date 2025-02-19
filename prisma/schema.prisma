@@ -17,19 +17,21 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   images    Image[]
+  folders   Folder[]
 }
 
 model Image {
-  id          Int         @id @default(autoincrement())
+  id          Int               @id @default(autoincrement())
   title       String
   description String
-  owner       User        @relation(fields: [ownerId], references: [id])
+  owner       User              @relation(fields: [ownerId], references: [id])
   ownerId     String
   meta        ImageMeta[]
+  folders     ImagesInFolders[]
   externalId  Bytes
   mimeType    String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @default(now()) @updatedAt
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @default(now()) @updatedAt
 
   @@index([ownerId])
 }
@@ -41,5 +43,28 @@ model ImageMeta {
   image   Image  @relation(fields: [imageId], references: [id])
   imageId Int
 
+  @@index([imageId])
+}
+
+model Folder {
+  id          Int               @id @default(autoincrement())
+  name        String
+  description String
+  owner       User              @relation(fields: [ownerId], references: [id])
+  ownerId     String
+  images      ImagesInFolders[]
+
+  @@index([ownerId])
+}
+
+model ImagesInFolders {
+  image      Image    @relation(fields: [imageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  imageId    Int
+  folder     Folder   @relation(fields: [folderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  folderId   Int
+  assignedAt DateTime @default(now())
+
+  @@id([imageId, folderId])
+  @@index([folderId])
   @@index([imageId])
 }

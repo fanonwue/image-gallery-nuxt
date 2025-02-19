@@ -4,8 +4,9 @@ import Material from '@primevue/themes/material';
 
 export default defineNuxtConfig({
   modules: [
-      '@nuxtjs/tailwindcss',
-      '@primevue/nuxt-module',
+    '@nuxtjs/tailwindcss',
+    '@primevue/nuxt-module',
+    '@pinia/nuxt',
   ],
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },

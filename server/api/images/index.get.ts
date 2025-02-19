@@ -1,19 +1,33 @@
-import {clampPageSize, defaultPageSize, queryParamToNumber, user} from "#utils";
+import {clampPageSize, currentUserId, defaultPageSize, queryParamToNumber} from "#utils";
 import {prisma} from "~/server/lib/db";
 import {Prisma} from "@prisma/client";
-import {GetImageQuery, ImageDto, QueryResult} from "~/shared/dto";
+import {FolderDto, GetImageQuery, GetImageQuerySchema, ImageDto, QueryResult} from "~/shared/dto";
 import {toDto} from "~/server/lib/image-utils";
-import {eventHandler} from "#imports";
+import {eventHandler, getValidatedQuery} from "#imports";
+
 export default eventHandler(async event => {
-    const query: GetImageQuery = getQuery(event)
+    const query = await getValidatedQuery(event, GetImageQuerySchema.parse)
 
     const page = getPage(query)
     const pageSize = getPageSize(query)
+    const folders = getFolders(query)
 
     const offset = (page - 1) * pageSize
 
-    const where: Prisma.ImageWhereInput = {}
-    where.ownerId = user
+    const where: Prisma.ImageWhereInput = {
+        ownerId: currentUserId(),
+    }
+
+    if (folders.length > 0) {
+        where.folders = {
+            some: {
+                folderId: {
+                    in: folders
+                }
+            }
+        }
+    }
+
 
     const totalCount = await prisma.image.count({
         where: where
@@ -43,4 +57,10 @@ const getPage = (params: GetImageQuery): number => queryParamToNumber(params.pag
 const getPageSize = (params: GetImageQuery) => {
     const pageSize = queryParamToNumber(params.pageSize, defaultPageSize)
     return clampPageSize(pageSize)
+}
+
+const getFolders = (params: GetImageQuery): FolderDto['id'][] => {
+    const rawValues = params.folders
+    if (typeof rawValues != 'string') return []
+    return rawValues.split(',').map(value => parseInt(value.trim())).filter(value => value && !isNaN(value))
 }

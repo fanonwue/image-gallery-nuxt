@@ -1,6 +1,6 @@
 import {z, ZodIssueCode, ZodObject, type ZodRawShape} from "zod";
-import type from "@redocly/ajv/lib/vocabularies/jtd/type";
 import type {FormatEnum} from "sharp";
+import type from "@redocly/ajv/lib/vocabularies/jtd/type";
 
 const parseJsonPreprocessor = (value: any, ctx: z.RefinementCtx) => {
     if (typeof value === 'string') {
@@ -27,6 +27,19 @@ const ImageDataSchema = z.object({
     description: z.string(),
     meta: ImageMetaSchema.optional()
 })
+
+export const FolderDataSchema = z.object({
+    name: z.string(),
+    description: z.string(),
+})
+
+const FolderId = z.number()
+export const FolderSchema = FolderDataSchema.extend({
+    id: FolderId,
+    ownerId: z.string(),
+})
+
+
 export const ImageSchema = ImageDataSchema.extend({
     id: z.number(),
     externalId: z.string(),
@@ -36,10 +49,13 @@ export const ImageSchema = ImageDataSchema.extend({
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
     ownerId: z.string().optional(),
+    folders: z.array(FolderSchema).optional(),
+    folderIds: z.array(FolderId).optional(),
 })
 
 export const UpdateImageSchema = ImageSchema.omit({
-    externalId: true
+    externalId: true,
+    folders: true
 }).partial()
 
 export const UpdateImageSchemaWithId = UpdateImageSchema.required({
@@ -49,7 +65,13 @@ export const UpdateImageSchemaWithId = UpdateImageSchema.required({
 export type UpdateImagePayloadDto = z.infer<typeof UpdateImageSchema>
 export const NewImageSchema = UpdateImageSchema.omit({ id: true })
 
+
+
 export type ImageDto = z.infer<typeof ImageSchema>
+
+
+
+export type FolderDto = z.infer<typeof FolderSchema>
 
 export interface QueryResult<T> {
     items: T[],
@@ -59,10 +81,13 @@ export interface QueryResult<T> {
     pageSize: number,
 }
 
-export interface GetImageQuery {
-    page?: string|number,
-    pageSize?: string|number,
-}
+export const GetImageQuerySchema = z.object({
+    page: z.number({ coerce: true }).optional(),
+    pageSize: z.number({ coerce: true }).optional(),
+    folders: z.string().optional()
+})
+
+export type GetImageQuery = z.infer<typeof GetImageQuerySchema>
 
 export const imageVariants = ['original', 'thumbnail'] as const
 export type ImageVariant = typeof imageVariants[number];
