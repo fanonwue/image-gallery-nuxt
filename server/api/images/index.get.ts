@@ -4,6 +4,7 @@ import {Prisma} from "@prisma/client";
 import {FolderDto, GetImageQuery, GetImageQuerySchema, ImageDto, QueryResult} from "~/shared/dto";
 import {toDto} from "~/server/lib/image-utils";
 import {eventHandler, getValidatedQuery} from "#imports";
+import {requireUserId} from "$server/lib/auth-utils";
 
 export default eventHandler(async event => {
     const query = await getValidatedQuery(event, GetImageQuerySchema.parse)
@@ -15,7 +16,7 @@ export default eventHandler(async event => {
     const offset = (page - 1) * pageSize
 
     const where: Prisma.ImageWhereInput = {
-        ownerId: currentUserId(),
+        ownerId: await requireUserId(event),
     }
 
     if (folders.length > 0) {

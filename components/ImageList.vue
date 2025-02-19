@@ -45,13 +45,16 @@ const onPageEvent = (e: PageState) => {
 <template>
   <Button @click="refreshFolders">Refresh Folders</Button>
   <Card>
-    <template #content>
-      <CardHeader :separator="false">
+    <template #title>
+      <CardHeader>
         Your Gallery
       </CardHeader>
-
-      <label for="folder-select">Folder</label>
-      <Select id="folder-select" v-model="selectedFolder" :options="foldersOptions" option-label="title" option-value="value" checkmark fluid/>
+    </template>
+    <template #content>
+      <float-label variant="in">
+        <Select id="folder-select" v-model="selectedFolder" :options="foldersOptions" option-label="title" option-value="value" checkmark fluid/>
+        <label for="folder-select">Folder</label>
+      </float-label>
     </template>
   </Card>
 

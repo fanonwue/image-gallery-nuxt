@@ -178,7 +178,7 @@ onBeforeMount(async () => {
               </float-label>
             <Divider />
             <ButtonGroup class="w-full mt-3">
-              <Button class="w-full" label="Save" type="button" :loading="isBusy" @click="onSave"></Button>
+              <Button class="w-full" label="Save" type="submit" :loading="isBusy" @click="onSave"></Button>
               <Button class="w-full" v-if="image" label="Delete" type="button" :loading="isBusy" @click="onDelete" severity="danger"></Button>
             </ButtonGroup>
           </Form>

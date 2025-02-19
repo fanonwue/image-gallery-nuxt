@@ -10,6 +10,6 @@ export const prisma = new PrismaClient({
     ]
 })
 
-//prisma.$on("query", async (e) => {
-//    console.log(`${e.query} ${e.params}`)
-//});
+prisma.$on("query", async (e) => {
+    console.log(`${e.query} ${e.params}`)
+});

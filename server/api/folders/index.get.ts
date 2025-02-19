@@ -3,10 +3,11 @@ import {Prisma} from "@prisma/client";
 import {currentUserId} from "#utils";
 import {prisma} from "$server/lib/db";
 import {toDto} from "$server/lib/folder-utils";
+import {requireUserId} from "$server/lib/auth-utils";
 
 export default eventHandler(async event => {
     const where: Prisma.FolderWhereInput = {
-        ownerId: currentUserId()
+        ownerId: await requireUserId(event)
     }
 
     const res = await prisma.folder.findMany({

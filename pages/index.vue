@@ -1,10 +1,14 @@
 <script setup lang="ts">
 
+import {repositoryUrl} from "#shared";
 </script>
 
 <template>
-Welcome to the page!
+  <div class="flex flex-col items-center justify-center">
+    <span class="text-2xl">Welcome to the Gallery Manager!</span>
 
+    <span><a :href="repositoryUrl" target="_blank">Click here to view the source code</a></span>
+  </div>
 </template>
 
 <style scoped>

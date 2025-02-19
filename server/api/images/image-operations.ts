@@ -18,6 +18,7 @@ import { z } from "zod";
 import {processImage} from "$server/lib/thumbnail";
 import {mimeTypeFromMultipartFile} from "#utils/server";
 import {acceptedFileTypes} from "#shared";
+import {requireUserId} from "$server/lib/auth-utils";
 
 interface UpdateRequest {
     imageMetaRaw?: string;
@@ -52,6 +53,7 @@ export const imageUpdateRequestMultipart = async (event: H3Event): Promise<Updat
 }
 
 export const patchHandler = async (event: H3Event, idFromRoute: number|undefined = undefined) => {
+    const currentUserId = await requireUserId(event)
     const contentType = getRequestHeader(event, "Content-Type")?.split(';')[0]
 
     let updateRequest: UpdateRequest|undefined;
@@ -68,6 +70,15 @@ export const patchHandler = async (event: H3Event, idFromRoute: number|undefined
 
     const id = idFromRoute === undefined ? body?.id : idFromRoute;
     if (!id) throw createError({statusCode: 400, message: "No ID provided"})
+
+    const imageOwner = await prisma.image.findFirst({
+        where: { id: id },
+        select: { ownerId: true }
+    })
+
+    if (!imageOwner) throw imageNotFound(id)
+    if (imageOwner.ownerId !== currentUserId)
+        throw createError({statusCode: 403, message: "You are not allowed to update this image"})
 
     const image = await updateImage(id, body, updateRequest.file, undefined, async (_, image) => {
         if (updateRequest.file) {
@@ -154,7 +165,7 @@ export const updateImage = async (
         })
         return finalImage as Promise<ImageWithMetaAndFolders>
     }).catch((e: Prisma.PrismaClientKnownRequestError) => {
-        if (e.code === "P2025") throw createError({ statusCode: 404, message: `No image with ID ${id} found` })
+        if (e.code === "P2025") throw imageNotFound(id)
         throw e
     });
 }
@@ -174,7 +185,7 @@ export const fetchImage = async (id: number): Promise<ImageWithMeta> => {
         throw e
     })
 
-    if (!image) throw createError({ statusCode: 404, message: `No image with ID ${id} found` })
+    if (!image) throw imageNotFound(id)
 
     return image
 }
@@ -203,3 +214,5 @@ export const saveFile = async (image: Image, file: Buffer|Readable): Promise<str
 
     return filePath
 }
+
+const imageNotFound = (id: number) => createError({ statusCode: 404, message: `No image with ID ${id} found` })

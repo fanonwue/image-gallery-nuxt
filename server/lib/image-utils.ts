@@ -10,7 +10,6 @@ import {
 import {defaultThumbnailFormat} from "#shared/dto";
 import { toDto as toFolderDto } from "~/server/lib/folder-utils";
 import {Prisma} from "@prisma/client";
-import FolderGetPayload = Prisma.FolderGetPayload;
 
 const externalIdLength = 32
 
@@ -65,7 +64,7 @@ export const toDto = (image: ImageWithMeta|ImageWithMetaAndFolders|ImageWithMeta
         const folders: FolderDto[] = []
         image.folders.forEach(f => {
             if (!('folder' in f)) return
-            folders.push(toFolderDto(f.folder as FolderGetPayload<any>))
+            folders.push(toFolderDto(f.folder as Prisma.FolderGetPayload<any>))
         })
         dto.folderIds = folderIds
         dto.folders = folderIds.length == folders.length ? folders : undefined

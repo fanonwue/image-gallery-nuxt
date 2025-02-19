@@ -1,8 +1,6 @@
 import {createError, eventHandler} from "#imports";
 import type {ImageDto} from "~/shared/dto";
-import {toDto} from "~/server/lib/image-utils";
-import {parseJson, UpdateImageSchema} from "~/shared/dto";
-import {patchHandler, updateImage} from "~/server/api/images/image-operations";
+import {patchHandler} from "~/server/api/images/image-operations";
 
 export default eventHandler(async (event): Promise<ImageDto> => {
     const rawId = getRouterParam(event, "id")

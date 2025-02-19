@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@primevue/nuxt-module',
     '@pinia/nuxt',
+    'nuxt-auth-utils'
   ],
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },

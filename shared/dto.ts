@@ -20,6 +20,21 @@ export const parseJson = <T extends ZodRawShape>(schema: ZodObject<T>)=> {
     return z.preprocess(parseJsonPreprocessor, schema);
 }
 
+export const UserSchema = z.object({
+    id: z.string(),
+    username: z.string(),
+    email: z.string().email(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+})
+
+export const UpdateUserSchema = UserSchema.extend({
+    password: z.string(),
+}).omit({ id: true }).partial()
+
+export type UpdateUserDto = z.infer<typeof UpdateUserSchema>
+export type UserDto = z.infer<typeof UserSchema>
+
 export const ImageMetaSchema = z.record(z.string())
 
 const ImageDataSchema = z.object({
@@ -88,6 +103,16 @@ export const GetImageQuerySchema = z.object({
 })
 
 export type GetImageQuery = z.infer<typeof GetImageQuerySchema>
+
+export const LoginRequestSchema = z.object({
+    identifier: z.string(),
+    password: z.string(),
+})
+
+export type LoginRequest = z.infer<typeof LoginRequestSchema>
+export interface LoginResponse {
+    sessionId: string,
+}
 
 export const imageVariants = ['original', 'thumbnail'] as const
 export type ImageVariant = typeof imageVariants[number];

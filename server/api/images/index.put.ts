@@ -8,6 +8,7 @@ import mime from "mime";
 import {imageUpdateRequestMultipart, isAcceptedMimeType, saveFile} from "~/server/api/images/image-operations";
 import {mimeTypeFromMultipartFile} from "#utils/server";
 import {processImage} from "$server/lib/thumbnail";
+import {requireUserId} from "$server/lib/auth-utils";
 
 export default eventHandler(async (event): Promise<ImageDto> => {
     const { imageMetaRaw, file } = await imageUpdateRequestMultipart(event);
@@ -22,7 +23,7 @@ export default eventHandler(async (event): Promise<ImageDto> => {
     const data: Prisma.ImageUncheckedCreateInput = {
         title: imageMeta.title ?? "",
         description: imageMeta.description ?? "",
-        ownerId: currentUserId(),
+        ownerId: await requireUserId(event),
         externalId: generateExternalId(),
         mimeType: mimeType
     }
