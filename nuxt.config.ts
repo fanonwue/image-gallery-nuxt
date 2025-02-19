@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import {fileURLToPath} from "node:url";
+import Aura from '@primevue/themes/aura';
 import Material from '@primevue/themes/material';
 
 export default defineNuxtConfig({
@@ -31,7 +32,7 @@ export default defineNuxtConfig({
   primevue: {
     options: {
       theme: {
-        preset: Material,
+        preset: Aura,
       }
     }
   }
