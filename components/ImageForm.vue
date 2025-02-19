@@ -6,15 +6,18 @@ import {$fetch, type FetchOptions} from "ofetch";
 import {toastWithDefault, useToast, computed, useFoldersStore} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
 import type {FileUploadSelectEvent} from "primevue";
+import type {AsyncDataRequestStatus} from "#app";
 
 const toast = useToast()
 
 const props = defineProps<{
   image?: ImageDto
+  status?: AsyncDataRequestStatus
 }>()
 
 const emit = defineEmits<{
   (e: 'saved', image: ImageDto): void,
+  (e: 'refresh'): void,
   (e: 'deleted', imageId: ImageDto['id']): void
 }>()
 
@@ -29,6 +32,7 @@ const file = ref<File|undefined>()
 const fileSrc = ref<string|undefined>()
 const isBusy = ref(false)
 const isLoading = ref(true)
+const isBusyOrRefreshing = computed(() => isBusy.value || props.status === "pending")
 const variants = [...imageVariants]
 const imageVariant = ref<ImageVariant>("original")
 const defaultImage = ref<ImageDto>({
@@ -118,6 +122,15 @@ const onDelete = async () => {
   }
 }
 
+const onCancel = async () => {
+  try {
+    isBusy.value = true
+    emit("refresh")
+  } finally {
+    isBusy.value = false
+  }
+}
+
 const onFileSelect = async (e: FileUploadSelectEvent) => {
   if (!Array.isArray(e.files)) return
   const selectedFile = e.files[0]
@@ -178,9 +191,12 @@ onBeforeMount(async () => {
               </float-label>
             <Divider />
             <ButtonGroup class="w-full mt-3">
-              <Button class="w-full" label="Save" type="submit" :loading="isBusy" @click="onSave"></Button>
-              <Button class="w-full" v-if="image" label="Delete" type="button" :loading="isBusy" @click="onDelete" severity="danger"></Button>
+              <Button class="w-full" type="submit" :loading="isBusyOrRefreshing" @click="onSave">Save</Button>
+              <Button v-if="image" class="w-full" type="button" :loading="isBusyOrRefreshing"
+                      @click="onCancel" severity="secondary">Cancel</Button>
             </ButtonGroup>
+            <Button v-if="image" class="w-full mt-3" type="button" :loading="isBusyOrRefreshing"
+                    @click="onDelete" severity="danger">Delete</Button>
           </Form>
         </div>
         <div v-if="image" class="">

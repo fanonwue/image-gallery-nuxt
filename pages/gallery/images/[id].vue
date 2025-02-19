@@ -6,7 +6,7 @@ const route = useRoute()
 const imageId = computed(() => route.params.id)
 const apiUrl = computed(() => `/api/images/${imageId.value}`)
 
-const { data: imageResponse } = await useFetch<ImageDto>(apiUrl)
+const { data: imageResponse, refresh: refreshImage, status: imageStatus } = await useFetch<ImageDto>(apiUrl)
 
 const onSaved = async (image: ImageDto) => {
   imageResponse.value = image
@@ -20,7 +20,7 @@ const onDelete = () => {
 
 <template>
   <div v-if="imageResponse" class="w-full">
-    <image-form :image="imageResponse" @saved="onSaved" @deleted="onDelete" />
+    <image-form :image="imageResponse" :status="imageStatus" @saved="onSaved" @deleted="onDelete" @refresh="refreshImage" />
   </div>
   <div v-else class="text-center">
     Loading...
