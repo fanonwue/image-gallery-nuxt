@@ -6,7 +6,7 @@
   <div class="flex flex-row">
     <AppSidebar />
     <div class="m-3 w-full">
-      <NuxtPage class="h-full" />
+      <NuxtPage />
       <Footer />
     </div>
   </div>

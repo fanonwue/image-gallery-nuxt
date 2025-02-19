@@ -74,7 +74,7 @@ const items = computed((): MenuItem[] => {
 <template>
   <aside class="h-screen sticky top-0 w-64">
 
-    <Menu :model="items" class="h-full w-full md:w-60">
+    <Menu :model="items" class="h-full w-full md:w-60 overflow-y-scroll">
       <template #start>
         <div class="my-2 font-bold text-center">Gallery Manager</div>
       </template>
