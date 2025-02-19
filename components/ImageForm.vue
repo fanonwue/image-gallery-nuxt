@@ -167,8 +167,8 @@ onBeforeMount(async () => {
               <Divider />
               <label for="file-upload">Upload a new file</label>
               <FileUpload id="file-upload" mode="basic" :file-limit="1" custom-upload @select="onFileSelect" @clear="onFileClear" :accept="acceptedFileTypesString"></FileUpload>
-              <picture>
-                <img v-if="fileSrc" :src="fileSrc!!" alt="Image" class="shadow-md rounded-xl w-full sm:w-64 mx-auto" style="filter: grayscale(100%)" />
+              <picture v-if="fileSrc">
+                <img :src="fileSrc!!" alt="Image" class="shadow-md rounded-xl w-full sm:w-64 mx-auto mt-3" style="filter: grayscale(100%)" />
               </picture>
             </div>
             <Divider />
