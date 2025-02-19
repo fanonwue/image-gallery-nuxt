@@ -52,16 +52,20 @@ const onPageEvent = (e: PageState) => {
     </template>
     <template #content>
       <float-label variant="in">
-        <Select id="folder-select" v-model="selectedFolder" :options="foldersOptions" option-label="title" option-value="value" checkmark fluid/>
+        <Select id="folder-select" v-model="selectedFolder"
+                :options="foldersOptions" option-label="title" option-value="value"
+                checkmark fluid filter filter-placeholder="Search folder"/>
         <label for="folder-select">Folder</label>
       </float-label>
     </template>
   </Card>
 
   <div class="columns-xs gap-y-3 mt-3">
-    <image-view class="mb-3" v-if="imageResponse" v-for="image in imageResponse.items" :image="image" :border="true" :key="image.id"></image-view>
+    <image-view class="mb-3" v-if="imageResponse" v-for="image in imageResponse.items"
+                :image="image" :border="true" :key="image.id" />
   </div>
-  <paginator class="mt-3" :rows="pageSize" :total-records="imageResponse?.totalCount ?? 0" :rows-per-page-options="pageSizes" @page="onPageEvent" />
+  <paginator class="mt-3" :rows="pageSize" :total-records="imageResponse?.totalCount ?? 0"
+             :rows-per-page-options="pageSizes" @page="onPageEvent" />
 </template>
 
 <style scoped lang="scss">

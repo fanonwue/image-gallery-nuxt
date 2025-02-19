@@ -179,14 +179,17 @@ onBeforeMount(async () => {
             <div class="mt-3">
               <Divider />
               <label for="file-upload">Upload a new file</label>
-              <FileUpload id="file-upload" mode="basic" :file-limit="1" custom-upload @select="onFileSelect" @clear="onFileClear" :accept="acceptedFileTypesString"></FileUpload>
+              <FileUpload id="file-upload" mode="basic" :file-limit="1" custom-upload
+                          @select="onFileSelect" @clear="onFileClear" :accept="acceptedFileTypesString" />
               <picture v-if="fileSrc">
                 <img :src="fileSrc!!" alt="Image" class="shadow-md rounded-xl w-full sm:w-64 mx-auto mt-3" style="filter: grayscale(100%)" />
               </picture>
             </div>
             <Divider />
               <float-label variant="in">
-                <MultiSelect id="folder-select" filter  v-model="localImage.folderIds" :options="folders ?? []" option-label="name" option-value="id" class="w-full" />
+                <MultiSelect id="folder-select" v-model="localImage.folderIds" :options="folders ?? []"
+                             option-label="name" option-value="id" class="w-full"
+                             checkmark fluid filter filter-placeholder="Search folder" />
                 <label for="folder-select">Folders</label>
               </float-label>
             <Divider />
