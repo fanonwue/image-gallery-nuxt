@@ -8,18 +8,14 @@ export default eventHandler(async event => {
 
     const user = await prisma.user.findFirst({
         where: {
-            OR: [
-                {
-                    email: loginRequest.identifier
-                },
-                {
-                    username: loginRequest.identifier
-                }
+            AND: [
+                { OR: [{ email: loginRequest.identifier }, { username: loginRequest.identifier }] },
+                { active: true }
             ]
         }
     })
 
-    if (!user) throw loginError
+    if (!user || !user.active) throw loginError
     const passwordVerified = await verifyPassword(user.password, loginRequest.password)
     if (!passwordVerified) throw loginError
     return setUserSession(event, {
