@@ -1,6 +1,6 @@
 import {createMissingThumbnails} from "$server/lib/thumbnail";
 import {imageVariants} from "#shared/dto";
-import {ensurePathExists} from "#utils/server";
+import {bytesToBase64, ensurePathExists, randomBytes} from "#utils/server";
 import {imageBasePath} from "$server/lib/image-utils";
 
 export default defineNitroPlugin(async (nitroApp) => {
@@ -9,4 +9,12 @@ export default defineNitroPlugin(async (nitroApp) => {
     await Promise.all(
         imageVariants.map(variant => ensurePathExists(imageBasePath(variant)))
     )
+
+    if (!process.env.NUXT_SESSION_PASSWORD) {
+        console.warn('NUXT_SESSION_PASSWORD not set. Defaulting to random string. Please set this explicitly, as sessions will be invalid after a restart!')
+        const pass = bytesToBase64(randomBytes(32))
+        process.env.NUXT_SESSION_PASSWORD = pass
+        console.log("Generated session password:", pass)
+    }
+
 })

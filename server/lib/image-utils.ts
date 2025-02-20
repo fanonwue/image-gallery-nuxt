@@ -10,18 +10,16 @@ import {
 import {defaultThumbnailFormat} from "#shared/dto";
 import { toDto as toFolderDto } from "~/server/lib/folder-utils";
 import {Prisma} from "@prisma/client";
+import {bytesToBase64, randomBytes} from "#utils/server";
 
 const externalIdLength = 32
 
 export const toExternalId = (buf: Buffer|Uint8Array|undefined = undefined) => {
     if (!buf) buf = generateExternalId()
-    if (!Buffer.isBuffer(buf)) buf = Buffer.from(buf)
-    return buf.toString('base64url')
+    return bytesToBase64(buf, true)
 }
 
-export const generateExternalId = () => {
-    return crypto.randomBytes(externalIdLength)
-}
+export const generateExternalId = () => randomBytes(externalIdLength)
 
 export const imageBasePath = (variant: ImageVariant) => {
     let variantPath = 'originals'
