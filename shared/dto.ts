@@ -48,12 +48,17 @@ export const FolderDataSchema = z.object({
     description: z.string(),
 })
 
-const FolderId = z.number()
-export const FolderSchema = FolderDataSchema.extend({
-    id: FolderId,
+export const FolderId = z.number({ coerce: true })
+export const FolderDataWithOwnerSchema = FolderDataSchema.extend({
     ownerId: z.string(),
 })
+export const FolderSchema = FolderDataWithOwnerSchema.extend({
+    id: FolderId,
+})
 
+export const NewFolderSchema = FolderDataSchema
+export const UpdateFolderSchema = FolderSchema.omit({ ownerId: true })
+export const GetFolderParams = z.object({id: FolderId})
 
 export const ImageSchema = ImageDataSchema.extend({
     id: z.number(),
@@ -77,8 +82,9 @@ export const UpdateImageSchemaWithId = UpdateImageSchema.required({
     id: true
 })
 
-export type UpdateImagePayloadDto = z.infer<typeof UpdateImageSchema>
 export const NewImageSchema = UpdateImageSchema.omit({ id: true })
+
+export type UpdateImagePayloadDto = z.infer<typeof UpdateImageSchema>
 
 
 
@@ -87,6 +93,7 @@ export type ImageDto = z.infer<typeof ImageSchema>
 
 
 export type FolderDto = z.infer<typeof FolderSchema>
+export type FolderUpdateDto = z.infer<typeof UpdateFolderSchema>
 
 export interface QueryResult<T> {
     items: T[],

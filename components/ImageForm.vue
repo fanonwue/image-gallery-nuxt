@@ -78,7 +78,7 @@ const onSave = async () => {
     }
 
     const response = await $fetch<ImageDto>("/api/images", fetchOptions)
-    if (!response) if (!response) throw Error('No image returned from API')
+    if (!response) throw Error('No image returned from API')
     toastWithDefault(toast, {
       summary: "Successfully saved image",
       detail: `Image ${response.id} was saved`,

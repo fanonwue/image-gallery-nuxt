@@ -57,6 +57,11 @@ const items = computed((): MenuItem[] => {
           label: 'New',
           icon: 'pi pi-plus',
           route: "/gallery/images/new"
+        },
+        {
+          label: 'Folders',
+          icon: 'pi pi-plus',
+          route: "/gallery/folders"
         }
       ]
     },
