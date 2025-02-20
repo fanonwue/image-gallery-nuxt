@@ -7,13 +7,15 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "prisma:generate": "npx prisma generate",
+    "prisma:deploy": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.10.1",
     "@primevue/forms": "^4.2.5",
     "@primevue/themes": "^4.2.5",
-    "@prisma/client": "^6.3.0",
+    "@prisma/client": "^6.4.0",
     "mime": "^4.0.6",
     "nuxt": "^3.15.4",
     "nuxt-auth-utils": "^0.5.15",
@@ -31,7 +33,6 @@
     "@primevue/nuxt-module": "^4.2.5",
     "nuxi": "^3.21.1",
     "postcss-import": "^16.1.0",
-    "prisma-erd-generator": "^2.0.4",
     "sass-embedded": "^1.83.4"
   }
 }

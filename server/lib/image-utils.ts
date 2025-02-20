@@ -23,17 +23,21 @@ export const generateExternalId = () => {
     return crypto.randomBytes(externalIdLength)
 }
 
-export const imageFilePath = (imageId: number, variant: ImageVariant = 'original', format?: ImageFormat|undefined) => {
+export const imageBasePath = (variant: ImageVariant) => {
     let variantPath = 'originals'
-    let fileSuffix = ''
-    switch (variant) {
-        case 'thumbnail':
-            variantPath = 'thumbnails'
-            fileSuffix = `.${format ?? defaultThumbnailFormat}`
-            break
-    }
+    if (variant == 'thumbnail')
+        variantPath = 'thumbnails'
 
-    return `./data/images/${variantPath}/${imageId}${fileSuffix}`
+    return `./data/images/${variantPath}/`
+}
+
+export const imageFilePath = (imageId: number, variant: ImageVariant = 'original', format?: ImageFormat|undefined) => {
+    const basePath = imageBasePath(variant)
+    let fileSuffix = ''
+    if (variant == 'thumbnail')
+        fileSuffix = `.${format ?? defaultThumbnailFormat}`
+
+    return `${basePath}${imageId}${fileSuffix}`
 }
 export const imageUrl = (image: ImageDto, variant: ImageVariant = 'original') => {
     // Adding the timestamp causes cached images to be invalidated because the URL changes
