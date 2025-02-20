@@ -49,12 +49,13 @@ const onPageEvent = (e: PageState) => {
     </template>
   </Card>
 
+  <paginator class="mt-3" :rows="pageSize" :total-records="imageResponse?.totalCount ?? 0"
+             :rows-per-page-options="pageSizes" @page="onPageEvent" />
+
   <div class="columns-xs gap-y-3 mt-3">
     <image-view class="mb-3" v-if="imageResponse" v-for="image in imageResponse.items"
                 :image="image" :border="true" :key="image.id" />
   </div>
-  <paginator class="mt-3" :rows="pageSize" :total-records="imageResponse?.totalCount ?? 0"
-             :rows-per-page-options="pageSizes" @page="onPageEvent" />
 </template>
 
 <style scoped lang="scss">
