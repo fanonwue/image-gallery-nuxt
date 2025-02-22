@@ -1,0 +1,11 @@
+services:
+  app:
+    image: ghcr.io/fanonwue/image-gallery-nuxt:master
+    ports:
+      - "3000:3000"
+    environment:
+      NUXT_SESSION_PASSWORD: "CHANGE_ME_GUnvVxorRgTbPJsS8yV3SzKtBR8x6j4H"
+      ADMIN_USER: "admin"
+      ADMIN_PASS: "CHANGE_ME"
+    volumes:
+      - ./data:/opt/app/data
