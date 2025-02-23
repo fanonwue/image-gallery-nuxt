@@ -19,13 +19,9 @@ const defaultFolder: FolderUpdateDto = {
 const localFolder = ref<FolderUpdateDto>({...defaultFolder})
 
 const updateLocalFolder = () => {
-  console.log("update local folder")
   if (folders.value === null) return undefined
-  console.log("update local folder 2")
   const selected = folders.value?.find((f) => f.id === selectedFolder.value)
-  console.log("update local folder 3")
   if (!selected) return {...defaultFolder}
-  console.log("update local folder 4")
   return {...selected}
 }
 const updateLocalFolderWatchers = () => {

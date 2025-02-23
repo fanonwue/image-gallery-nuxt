@@ -26,10 +26,8 @@ const { data: imageResponse, refresh: refreshImages } = await useFetch("/api/ima
 });
 
 const onPageEvent = (e: PageState) => {
-  console.log("page event", e);
   pageSize.value = e.rows
   page.value = e.page + 1
-  console.log(page.value)
 }
 
 </script>
