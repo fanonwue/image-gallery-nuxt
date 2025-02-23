@@ -2,6 +2,10 @@
 definePageMeta({
   middleware: ['authenticated']
 })
+
+useHeadSafe({
+  title: 'Gallery'
+})
 </script>
 
 <template>

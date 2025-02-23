@@ -8,6 +8,9 @@ import CardHeader from "~/components/CardHeader.vue";
 definePageMeta({
   middleware: ["guest"]
 })
+useHeadSafe({
+  title: 'Login'
+})
 
 const { loggedIn, user, fetch: refreshSession } = useUserSession()
 const toast = useToast()

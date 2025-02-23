@@ -14,3 +14,5 @@ export const acceptedFileTypes = [
 export const acceptedFileTypesString = acceptedFileTypes.join(",");
 
 export const repositoryUrl = "https://github.com/fanonwue/image-gallery-nuxt"
+
+export const appName = "Gallery Manager"

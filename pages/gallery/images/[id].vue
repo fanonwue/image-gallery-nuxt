@@ -7,6 +7,14 @@ const imageId = computed(() => route.params.id)
 const apiUrl = computed(() => `/api/images/${imageId.value}`)
 
 const { data: imageResponse, refresh: refreshImage, status: imageStatus } = await useFetch<ImageDto>(apiUrl)
+const title = computed(() => {
+  if (!imageResponse.value) return "Loading..."
+  return imageResponse.value.title
+})
+
+useHeadSafe({
+  title: title.value,
+})
 
 const onSaved = async (image: ImageDto) => {
   imageResponse.value = image

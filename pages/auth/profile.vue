@@ -8,6 +8,9 @@ import CardHeader from "~/components/CardHeader.vue";
 definePageMeta({
   middleware: ["authenticated"],
 })
+useHeadSafe({
+  title: 'Your Profile'
+})
 
 const { user } = useUserSession()
 

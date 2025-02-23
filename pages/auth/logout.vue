@@ -4,6 +4,9 @@ import {toastWithDefault} from "#utils/client";
 definePageMeta({
   middleware: ["authenticated"]
 })
+useHeadSafe({
+  title: 'Logout'
+})
 
 const toast = useToast()
 const { clear } = useUserSession()

@@ -3,6 +3,10 @@ import {ref, toastWithDefault, useFoldersStore} from "#imports";
 import type {FolderUpdateDto} from "#shared/dto";
 import {$fetch} from "ofetch";
 
+useHeadSafe({
+  title: 'Your Folders'
+})
+
 const toast = useToast()
 const foldersStore = useFoldersStore()
 const { data: folders, refresh: refreshFolders, status: foldersStatus } = await foldersStore.foldersAsync()

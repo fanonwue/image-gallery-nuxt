@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-
 import {useToast} from "#imports";
 import ImageList from "~/components/ImageList.vue";
 
