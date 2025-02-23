@@ -16,7 +16,7 @@ const defaultFolder: FolderUpdateDto = {
   name: '',
   description: ''
 }
-const localFolder = ref<FolderUpdateDto>(Object.assign({}, defaultFolder))
+const localFolder = ref<FolderUpdateDto>({...defaultFolder})
 
 const updateLocalFolder = () => {
   console.log("update local folder")
@@ -24,9 +24,9 @@ const updateLocalFolder = () => {
   console.log("update local folder 2")
   const selected = folders.value?.find((f) => f.id === selectedFolder.value)
   console.log("update local folder 3")
-  if (!selected) return Object.assign({}, defaultFolder)
+  if (!selected) return {...defaultFolder}
   console.log("update local folder 4")
-  return Object.assign({}, selected)
+  return {...selected}
 }
 const updateLocalFolderWatchers = () => {
   const newFolder = updateLocalFolder()
