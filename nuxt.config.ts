@@ -17,10 +17,6 @@ export default defineNuxtConfig({
     "$server": fileURLToPath(new URL('./server/', import.meta.url)),
     "$shared": fileURLToPath(new URL('./shared/', import.meta.url)),
   },
-  sourcemap: {
-    server: true,
-    client: true
-  },
   css: [
       '~/assets/css/main.scss',
   ],
