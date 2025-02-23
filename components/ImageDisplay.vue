@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{
   addLink: false,
   compact: false,
   rounded: true,
-  variant: "normal",
+  variant: "original",
 })
 
 const fullImageLink = computed(() => {
@@ -29,7 +29,3 @@ const fullImageLink = computed(() => {
     <image-wrapper v-else :image="image" :rounded="rounded" :variant="variant" />
   </div>
 </template>
-
-<style scoped>
-
-</style>

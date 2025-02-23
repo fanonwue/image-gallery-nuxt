@@ -17,7 +17,7 @@ const imageUrl = computed(() => props.variant == "original" ? props.image.origin
 
 <template>
   <picture class="">
-    <img class="max-h-screen aspect-auto" :class="imageRoundedClassesString(rounded)" :src="imageUrl" :alt="image.title"/>
+    <img class="max-h-screen aspect-auto w-full" :class="imageRoundedClassesString(rounded)" :src="imageUrl" :alt="image.title"/>
   </picture>
 </template>
 
