@@ -11,8 +11,11 @@ const pageSize = ref(pageSizes[0]);
 const page = ref(1)
 const foldersStore = useFoldersStore()
 const { data: folders, refresh: refreshFolders } = await foldersStore.foldersAsync()
-const selectedFolder = ref<number>(-1)
-const selectedFolderQueryParam = computed(() => selectedFolder.value && selectedFolder.value > 0 ? selectedFolder.value : undefined)
+const selectedFolderId = ref<number>(-1)
+const selectedFolder = computed(() => {
+  return folders.value?.find((f) => f.id === selectedFolderId.value)
+})
+const selectedFolderQueryParam = computed(() => selectedFolderId.value && selectedFolderId.value > 0 ? selectedFolderId.value : undefined)
 
 const queryParams = computed((): GetImageQuery => {
   return {
@@ -42,8 +45,13 @@ const onPageEvent = (e: PageState) => {
     </template>
     <template #content>
       <float-label variant="in">
-        <FolderSelection v-model="selectedFolder" :folders="folders ?? []" />
+        <FolderSelection v-model="selectedFolderId" :folders="folders ?? []" />
       </float-label>
+    </template>
+    <template #footer v-if="selectedFolder?.description">
+      <Divider />
+      <span class="font-bold">Description</span>
+      <p class="mt-2 whitespace-pre-wrap">{{ selectedFolder.description }}</p>
     </template>
   </Card>
 
