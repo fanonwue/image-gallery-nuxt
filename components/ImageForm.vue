@@ -186,8 +186,8 @@ onBeforeMount(async () => {
               </picture>
             </div>
             <Divider />
-              <float-label variant="in">
-                <MultiSelect id="folder-select" v-model="localImage.folderIds" :options="folders ?? []"
+              <float-label variant="in" v-if="folders">
+                <MultiSelect id="folder-select" v-model="localImage.folderIds" :options="folders"
                              option-label="name" option-value="id" class="w-full"
                              checkmark fluid filter filter-placeholder="Search folder" />
                 <label for="folder-select">Folders</label>
