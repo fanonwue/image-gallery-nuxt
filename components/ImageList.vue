@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {GetImageQuery, ImageDto, QueryResult} from "#shared/dto";
-import {defaultPageSize} from "#utils";
+import {debugMode, defaultPageSize} from "#utils";
 import type {PageState} from "primevue";
 import {ref, useAsyncData, useFoldersStore, computed} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
@@ -33,7 +33,7 @@ const onPageEvent = (e: PageState) => {
 </script>
 
 <template>
-  <Button @click="refreshFolders">Refresh Folders</Button>
+  <Button v-if="debugMode" @click="refreshFolders()">Refresh Folders</Button>
   <Card>
     <template #title>
       <CardHeader>

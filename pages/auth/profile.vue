@@ -4,6 +4,7 @@ import {watch} from "#imports";
 import {$fetch} from "ofetch";
 import {Form} from "@primevue/forms";
 import CardHeader from "~/components/CardHeader.vue";
+import {debugMode} from "#utils";
 
 definePageMeta({
   middleware: ["authenticated"],
@@ -40,7 +41,7 @@ const onSave = async () => {
 </script>
 
 <template>
-  <Button label="Refresh" @click="refreshUser"></Button>
+  <Button v-if="debugMode" @click="refreshUser()">Refresh User</Button>
   <Card class="w-full md:w-3/4 mx-auto">
     <template #title>
       <CardHeader>

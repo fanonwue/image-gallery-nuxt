@@ -15,3 +15,5 @@ export const queryParamToNumber = (value: string|number|undefined, defaultValue:
 export const timeout = (timeout: number): Promise<void> => {
     return new Promise(resolve => setTimeout(resolve, timeout))
 }
+
+export const debugMode = import.meta.env.MODE === "development"

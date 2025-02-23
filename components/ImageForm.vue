@@ -7,6 +7,7 @@ import {toastWithDefault, useToast, computed, useFoldersStore, watch} from "#imp
 import CardHeader from "~/components/CardHeader.vue";
 import type {FileUploadSelectEvent} from "primevue";
 import type {AsyncDataRequestStatus} from "#app";
+import {debugMode} from "#utils";
 
 const toast = useToast()
 
@@ -169,7 +170,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <Button @click="refreshFolders">Refresh Folders</Button>
+  <Button v-if="debugMode" @click="refreshFolders()">Refresh Folders</Button>
   <Card>
     <template #title>
       <CardHeader>
