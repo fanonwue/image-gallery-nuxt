@@ -70,7 +70,6 @@ const doLogin = async () => {
       </Form>
     </template>
   </Card>
-
 </template>
 
 <style scoped>

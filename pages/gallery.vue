@@ -9,7 +9,7 @@ useHeadSafe({
 </script>
 
 <template>
-<NuxtPage></NuxtPage>
+  <NuxtPage />
 </template>
 
 <style scoped>

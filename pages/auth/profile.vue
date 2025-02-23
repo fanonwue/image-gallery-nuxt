@@ -41,32 +41,34 @@ const onSave = async () => {
 </script>
 
 <template>
-  <Button v-if="debugMode" @click="refreshUser()">Refresh User</Button>
-  <Card class="w-full md:w-3/4 mx-auto">
-    <template #title>
-      <CardHeader>
-        Edit Profile of {{ currentUser?.email }}
-      </CardHeader>
-    </template>
-    <template #content>
-      <Form>
-        <float-label variant="in">
-          <input-text fluid id="username" v-model="userUpdate.username" />
-          <label for="username">Username</label>
-        </float-label>
-        <float-label variant="in" class="mt-3">
-          <input-text fluid id="email" v-model="userUpdate.email" />
-          <label for="email">Email</label>
-        </float-label>
-        <float-label variant="in" class="mt-3">
-          <Password v-tooltip.bottom="'Leave this field empty if you do not wish to update your password'" fluid id="password" v-model="userUpdate.password" toggleMask />
-          <label for="password">Password</label>
-        </float-label>
-        <Divider />
-        <Button fluid label="Save" type="submit" :loading="isBusy" @click="onSave"></Button>
-      </Form>
-    </template>
-  </Card>
+  <div>
+    <Button v-if="debugMode" @click="refreshUser()">Refresh User</Button>
+    <Card class="w-full md:w-3/4 mx-auto">
+      <template #title>
+        <CardHeader>
+          Edit Profile of {{ currentUser?.email }}
+        </CardHeader>
+      </template>
+      <template #content>
+        <Form>
+          <float-label variant="in">
+            <input-text fluid id="username" v-model="userUpdate.username" />
+            <label for="username">Username</label>
+          </float-label>
+          <float-label variant="in" class="mt-3">
+            <input-text fluid id="email" v-model="userUpdate.email" />
+            <label for="email">Email</label>
+          </float-label>
+          <float-label variant="in" class="mt-3">
+            <Password v-tooltip.bottom="'Leave this field empty if you do not wish to update your password'" fluid id="password" v-model="userUpdate.password" toggleMask />
+            <label for="password">Password</label>
+          </float-label>
+          <Divider />
+          <Button fluid label="Save" type="submit" :loading="isBusy" @click="onSave"></Button>
+        </Form>
+      </template>
+    </Card>
+  </div>
 </template>
 
 <style scoped>

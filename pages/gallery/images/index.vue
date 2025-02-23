@@ -17,7 +17,9 @@ const showToast = () => {
 </script>
 
 <template>
-  <image-list/>
+  <div>
+    <image-list/>
+  </div>
 </template>
 
 <style scoped>

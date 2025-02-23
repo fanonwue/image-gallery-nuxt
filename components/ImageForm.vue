@@ -199,12 +199,12 @@ onBeforeMount(async () => {
               </picture>
             </div>
             <Divider />
-              <float-label variant="in" v-if="folders">
-                <MultiSelect id="folder-select" v-model="selectedFolders" :options="folders"
-                             option-label="name" option-value="id" class="w-full"
-                             checkmark fluid filter filter-placeholder="Search folder" />
-                <label for="folder-select">Folders</label>
-              </float-label>
+            <float-label variant="in" v-if="folders">
+              <MultiSelect id="folder-select" v-model="selectedFolders" :options="folders"
+                           option-label="name" option-value="id" class="w-full"
+                           checkmark fluid filter filter-placeholder="Search folder" />
+              <label for="folder-select">Folders</label>
+            </float-label>
             <Divider />
             <ButtonGroup class="w-full mt-3">
               <Button class="w-full" type="submit" :loading="isBusyOrRefreshing" @click="onSave">Save</Button>
@@ -227,7 +227,6 @@ onBeforeMount(async () => {
       </div>
     </template>
   </Card>
-
 </template>
 
 <style scoped>

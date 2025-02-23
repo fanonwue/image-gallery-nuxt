@@ -12,7 +12,9 @@ const onSaved = (image: ImageDto) => {
 </script>
 
 <template>
-  <image-form @saved="onSaved" />
+  <div>
+    <image-form @saved="onSaved" />
+  </div>
 </template>
 
 <style scoped>
