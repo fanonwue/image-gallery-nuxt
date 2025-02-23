@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import type {MenuItem} from "primevue/menuitem";
-import type {RouteRecordRaw} from "#vue-router";
-import {appName} from "../shared";
+import {appName} from "#shared";
 
 interface MenuItemWithRoute extends MenuItem {
   route: string;
