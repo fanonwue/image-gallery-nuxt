@@ -98,7 +98,7 @@ const onDelete = async () => {
 </script>
 
 <template>
-  <Card>
+  <Card class="w-full md:w-5/6 lg:w-4/6 xl:w-1/2 mx-auto">
     <template #title>
       <CardHeader>
         Folder Management
@@ -109,16 +109,14 @@ const onDelete = async () => {
       <FolderSelection v-model="selectedFolder" :folders="folders ?? []" :add-default="false" />
       <Form v-if="localFolder">
         <Divider />
-        <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <float-label variant="in">
-            <input-text class="w-full" id="name" v-model="localFolder.name" />
-            <label for="name">Name</label>
-          </float-label>
-          <float-label variant="in">
-            <input-text class="w-full" id="description" v-model="localFolder.description" />
-            <label for="description">Description</label>
-          </float-label>
-        </div>
+        <float-label variant="in">
+          <input-text class="w-full" id="name" v-model="localFolder.name" />
+          <label for="name">Name</label>
+        </float-label>
+        <float-label variant="in" class="mt-3">
+          <Textarea class="w-full" id="description" v-model="localFolder.description" rows="5" />
+          <label for="description">Description</label>
+        </float-label>
         <Divider />
         <ButtonGroup class="w-full mt-3">
           <Button class="w-full" type="submit" :loading="isBusyOrRefreshing" @click="onSave">

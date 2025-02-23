@@ -43,7 +43,7 @@ const onSave = async () => {
 <template>
   <div>
     <Button v-if="debugMode" @click="refreshUser()">Refresh User</Button>
-    <Card class="w-full md:w-3/4 mx-auto">
+    <Card class="w-full md:w-5/6 lg:w-4/6 xl:w-1/2 mx-auto">
       <template #title>
         <CardHeader>
           Edit Profile of {{ currentUser?.email }}
