@@ -1,15 +1,12 @@
-import {acceptHMRUpdate, defineStore, useAsyncData, useRequestFetch} from "#imports";
+import {acceptHMRUpdate, defineStore} from "#imports";
 import type {FolderDto} from "#shared/dto";
 
 
 export const useFoldersStore = defineStore('folders', () => {
-
-    const requestFetch = useRequestFetch()
-    const fetchFolders = () => requestFetch<FolderDto[]>("/api/folders")
-    const foldersAsync = () => useAsyncData('folders', () => fetchFolders())
+    const foldersAsync = () => useFetch<FolderDto[]>("/api/folders")
 
     return {
-        fetchFolders, foldersAsync
+        foldersAsync
     }
 })
 
