@@ -3,7 +3,7 @@ import {Form} from "@primevue/forms";
 import {type ImageDto, type ImageVariant, imageVariants} from "#shared/dto";
 import {acceptedFileTypesString} from "#shared"
 import {$fetch, type FetchOptions} from "ofetch";
-import {toastWithDefault, useToast, computed, useFoldersStore} from "#imports";
+import {toastWithDefault, useToast, computed, useFoldersStore, watch} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
 import type {FileUploadSelectEvent} from "primevue";
 import type {AsyncDataRequestStatus} from "#app";
@@ -44,9 +44,21 @@ const defaultImage = ref<ImageDto>({
 })
 
 const localImage = computed(() => {
-  if (props.image) return props.image
-  return defaultImage.value
+  let local = {...defaultImage.value}
+  if (props.image) local = {...props.image}
+  return local
 })
+
+
+const selectedFolders = ref<number[]>([])
+watch(selectedFolders, (newFolders) => {
+  localImage.value.folderIds = newFolders
+})
+watch(localImage, (newImage) => {
+  if (!newImage.folderIds) return
+  selectedFolders.value = newImage.folderIds
+}, { immediate: true })
+
 
 const generateFetchOptions = (): FetchOptions<"json", any> => {
   const stringifiedBody = JSON.stringify(localImage.value)
@@ -187,7 +199,7 @@ onBeforeMount(async () => {
             </div>
             <Divider />
               <float-label variant="in" v-if="folders">
-                <MultiSelect id="folder-select" v-model="localImage.folderIds" :options="folders"
+                <MultiSelect id="folder-select" v-model="selectedFolders" :options="folders"
                              option-label="name" option-value="id" class="w-full"
                              checkmark fluid filter filter-placeholder="Search folder" />
                 <label for="folder-select">Folders</label>
