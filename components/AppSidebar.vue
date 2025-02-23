@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import type {MenuItem} from "primevue/menuitem";
 import type {RouteRecordRaw} from "#vue-router";
+import {appName} from "../shared";
 
 interface MenuItemWithRoute extends MenuItem {
   route: string;
@@ -81,7 +82,7 @@ const items = computed((): MenuItem[] => {
 
     <Menu :model="items" class="h-full w-full md:w-60 overflow-y-scroll">
       <template #start>
-        <div class="my-2 font-bold text-center">Gallery Manager</div>
+        <div class="my-2 font-bold text-center">{{ appName }}</div>
       </template>
       <template #item="{ item, props }">
         <nuxt-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>

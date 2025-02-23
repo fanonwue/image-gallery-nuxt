@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {repositoryUrl} from "#shared";
+import {appName, repositoryUrl} from "#shared";
 
 const yearPeriod = () => {
   const startYear = 2025
@@ -12,7 +12,7 @@ const yearPeriod = () => {
 <template>
   <div class="mx-auto">
     <Divider />
-    <a :href="repositoryUrl" target="_blank">Gallery Manager - a simple gallery manager written with Nuxt 3!</a><br>
+    <a :href="repositoryUrl" target="_blank">{{ appName }} - a simple gallery manager written with Nuxt 3!</a><br>
     © {{ yearPeriod() }} Fabian Wünderich
   </div>
 </template>
