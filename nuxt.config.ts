@@ -10,6 +10,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-auth-utils'
   ],
+  app: {
+    // pageTransition: { name: 'page', mode: 'out-in' }
+  },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   alias: {
