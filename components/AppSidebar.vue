@@ -6,7 +6,13 @@ interface MenuItemWithRoute extends MenuItem {
   route: string;
 }
 
+const navIconSize = '1.5em'
 const { loggedIn, user } = useUserSession()
+
+const route = useRoute()
+const isCurrentRoute = (path: string) => {
+  return route.path === path
+}
 
 const loggedInItems: MenuItem[] = [
   {
@@ -78,7 +84,6 @@ const items = computed((): MenuItem[] => {
 
 <template>
   <aside class="h-screen sticky top-0 w-64">
-
     <Menu :model="items" class="h-full w-full md:w-60 overflow-y-scroll">
       <template #start>
         <div class="my-2 font-bold text-center">{{ appName }}</div>
@@ -86,12 +91,12 @@ const items = computed((): MenuItem[] => {
       <template #item="{ item, props }">
         <nuxt-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
           <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-            <Icon v-if="item.icon" :name="item.icon" />
+            <Icon v-if="item.icon" :name="item.icon" :size="navIconSize" />
             <span class="ml-2">{{ item.label }}</span>
           </a>
         </nuxt-link>
         <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-          <Icon v-if="item.icon" :name="item.icon" />
+          <Icon v-if="item.icon" :name="item.icon" :size="navIconSize" />
           <span class="ml-2">{{ item.label }}</span>
         </a>
       </template>
