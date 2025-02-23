@@ -11,12 +11,12 @@ const { loggedIn, user } = useUserSession()
 const loggedInItems: MenuItem[] = [
   {
     label: 'Settings',
-    icon: 'pi pi-cog',
+    icon: 'material-symbols-light:settings-account-box',
     route: '/auth/profile'
   },
   {
     label: 'Logout',
-    icon: 'pi pi-sign-out',
+    icon: 'material-symbols-light:logout',
     route: '/auth/logout'
   }
 ]
@@ -24,7 +24,7 @@ const loggedInItems: MenuItem[] = [
 const loggedOutItems: MenuItem[] = [
   {
     label: 'Login',
-    icon: 'pi pi-sign-out',
+    icon: 'material-symbols-light:login',
     route: '/auth/login'
   }
 ]
@@ -39,6 +39,7 @@ const items = computed((): MenuItem[] => {
     },
     {
       label: 'Home',
+      icon: 'material-symbols-light:home-rounded',
       route: '/'
     },
     {
@@ -49,17 +50,17 @@ const items = computed((): MenuItem[] => {
       items: [
         {
           label: 'View',
-          icon: 'pi pi',
+          icon: 'material-symbols-light:image-rounded',
           route: '/gallery/images'
         },
         {
           label: 'New',
-          icon: 'pi pi-plus',
+          icon: 'material-symbols-light:add-photo-alternate-rounded',
           route: "/gallery/images/new"
         },
         {
           label: 'Folders',
-          icon: 'pi pi-plus',
+          icon: 'material-symbols-light:folder',
           route: "/gallery/folders"
         }
       ]
@@ -85,12 +86,12 @@ const items = computed((): MenuItem[] => {
       <template #item="{ item, props }">
         <nuxt-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
           <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-            <span :class="item.icon" />
+            <Icon v-if="item.icon" :name="item.icon" />
             <span class="ml-2">{{ item.label }}</span>
           </a>
         </nuxt-link>
         <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-          <span :class="item.icon" />
+          <Icon v-if="item.icon" :name="item.icon" />
           <span class="ml-2">{{ item.label }}</span>
         </a>
       </template>

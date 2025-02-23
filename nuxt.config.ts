@@ -8,7 +8,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@primevue/nuxt-module',
     '@pinia/nuxt',
-    'nuxt-auth-utils'
+    'nuxt-auth-utils',
+    '@nuxt/icon'
   ],
   app: {
     // pageTransition: { name: 'page', mode: 'out-in' }
@@ -30,6 +31,7 @@ export default defineNuxtConfig({
   },
   primevue: {
     options: {
+      ripple: true,
       theme: {
         preset: Aura,
       }
