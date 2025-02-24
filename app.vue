@@ -11,13 +11,31 @@ useHead({
 
 <template>
   <div>
-    <Toast />
+    <Toast id="default-toast" class="" />
     <NuxtLayout />
     <ConfirmDialog></ConfirmDialog>
   </div>
 </template>
 
-<style>
+<style lang="scss">
+$toast-border-x: 1em;
+$toast-border-top: 1em;
+
+#default-toast {
+  --border-top: #{$toast-border-top};
+  --border-x: #{$toast-border-x};
+
+  position: fixed;
+  top: var(--border-top) !important;
+  right: var(--border-x) !important;
+  max-width: calc(100vw - var(--border-x) * 2);
+  
+  @media screen and (min-width: 1024px) {
+    --border-top: #{$toast-border-top * 2};
+    --border-x: #{$toast-border-x * 2};
+  }
+}
+
 /*
 .page-enter-active,
 .page-leave-active {
