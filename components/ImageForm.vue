@@ -164,12 +164,12 @@ const onFileClear = async () => {
   fileSrc.value = undefined
 }
 
-const copyLink = () => {
+const copyLink = async () => {
   if (!props.image || !imageVariant.value) return
   const imageUrl = getImageUrl(props.image, imageVariant.value)
   if (!imageUrl) return
   try {
-    navigator.clipboard.writeText(location.origin + imageUrl)
+    await navigator.clipboard.writeText(location.origin + imageUrl)
     toast.add({
       severity: "secondary",
       summary: "Link copied to clipboard"
