@@ -163,10 +163,6 @@ const onFileClear = async () => {
   file.value = undefined
   fileSrc.value = undefined
 }
-
-onBeforeMount(async () => {
-
-})
 </script>
 
 <template>
@@ -214,6 +210,9 @@ onBeforeMount(async () => {
             <Button v-if="image" class="w-full mt-3" type="button" :loading="isBusyOrRefreshing"
                     @click="onDelete" severity="danger">Delete</Button>
           </Form>
+        </div>
+        <div class="lg:hidden">
+          <Divider  />
         </div>
         <div v-if="image">
           <image-display :image="image" :variant="imageVariant" :link-to-image-file="true" />
