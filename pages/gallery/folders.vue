@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, toastWithDefault, useFoldersStore} from "#imports";
+import {ref, useFoldersStore, useToastWithDefaults} from "#imports";
 import type {FolderUpdateDto} from "#shared/dto";
 import {$fetch} from "ofetch";
 
@@ -7,7 +7,7 @@ useHeadSafe({
   title: 'Your Folders'
 })
 
-const toast = useToast()
+const toast = useToastWithDefaults()
 const foldersStore = useFoldersStore()
 const { data: folders, refresh: refreshFolders, status: foldersStatus } = await foldersStore.foldersAsync()
 const selectedFolder = ref<number|undefined>()
@@ -51,7 +51,7 @@ const onSave = async () => {
       body: JSON.stringify(folder)
     })
     if (!response) throw Error('No folder returned from API')
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Successfully saved folder",
       detail: `Folder ${response.id} was saved`,
       severity: "success"
@@ -59,7 +59,7 @@ const onSave = async () => {
     await refreshFolders()
     selectedFolder.value = response.id
   } catch (e: unknown) {
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Failed to save folder",
       detail: "An error occurred while saving folder",
       severity: "error",
@@ -78,7 +78,7 @@ const onDelete = async () => {
     await $fetch(`/api/folders/${folder.id}`, {
       method: "DELETE",
     })
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Successfully deleted folder",
       detail: `Folder ${folder.id} was deleted`,
       severity: "success"
@@ -86,7 +86,7 @@ const onDelete = async () => {
     await refreshFolders()
     selectedFolder.value = undefined
   } catch (e: unknown) {
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Failed to delete folder",
       detail: `An error occurred while deleting folder`,
       severity: "error"

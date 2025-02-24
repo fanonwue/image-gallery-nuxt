@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {useToast} from "#imports";
+import {useToastWithDefaults} from "#imports";
 import ImageList from "~/components/ImageList.vue";
 
 
-const toast = useToast()
+const toast = useToastWithDefaults()
 
 const showToast = () => {
   toast.add({

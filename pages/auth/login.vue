@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type {LoginRequest} from "#shared/dto";
-import {acceptedFileTypesString} from "#shared";
 import {Form} from "@primevue/forms";
-import {toastWithDefault, useToast} from "#imports";
+import {useToastWithDefaults} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
 
 definePageMeta({
@@ -13,7 +12,7 @@ useHeadSafe({
 })
 
 const { loggedIn, user, fetch: refreshSession } = useUserSession()
-const toast = useToast()
+const toast = useToastWithDefaults()
 const isBusy = ref(false)
 
 const credentials: LoginRequest = reactive({
@@ -29,14 +28,14 @@ const doLogin = async () => {
       body: credentials
     })
     await refreshSession()
-    toastWithDefault(toast, {
+    toast.add({
       severity: "success",
       summary: "Login successful",
       detail: `Successfully logged in as ${user.value?.email}`,
     })
     await navigateTo('/')
   } catch (error) {
-    toastWithDefault(toast, {
+    toast.add({
       severity: "error",
       summary: "Login failed",
       detail: "Invalid credentials?",

@@ -3,13 +3,13 @@ import {Form} from "@primevue/forms";
 import {type ImageDto, type ImageVariant, imageVariants} from "#shared/dto";
 import {acceptedFileTypesString} from "#shared"
 import {$fetch, type FetchOptions} from "ofetch";
-import {toastWithDefault, useToast, computed, useFoldersStore, watch} from "#imports";
+import {useToastWithDefaults, computed, useFoldersStore, watch} from "#imports";
 import CardHeader from "~/components/CardHeader.vue";
 import type {FileUploadSelectEvent} from "primevue";
 import type {AsyncDataRequestStatus} from "#app";
 import {debugMode} from "#utils";
 
-const toast = useToast()
+const toast = useToastWithDefaults()
 
 const props = defineProps<{
   image?: ImageDto
@@ -92,14 +92,14 @@ const onSave = async () => {
 
     const response = await $fetch<ImageDto>("/api/images", fetchOptions)
     if (!response) throw Error('No image returned from API')
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Successfully saved image",
       detail: `Image ${response.id} was saved`,
       severity: "success"
     })
     emit('saved', response)
   } catch (e: unknown) {
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Failed to save image",
       detail: "An error occurred while saving image",
       severity: "error",
@@ -118,14 +118,14 @@ const onDelete = async () => {
     await $fetch(`/api/images/${imageId}`, {
       method: "DELETE",
     })
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Successfully deleted image",
       detail: `Image ${imageId} was deleted`,
       severity: "success"
     })
     emit('deleted', imageId)
   } catch (_: unknown) {
-    toastWithDefault(toast, {
+    toast.add({
       summary: "Failed to delete image",
       detail: "An error occurred while deleting image",
       severity: "error",

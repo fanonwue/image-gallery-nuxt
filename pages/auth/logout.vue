@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {toastWithDefault} from "#utils/client";
+import {useToastWithDefaults} from "#utils/toast-with-defaults";
 
 definePageMeta({
   middleware: ["authenticated"]
@@ -8,11 +8,11 @@ useHeadSafe({
   title: 'Logout'
 })
 
-const toast = useToast()
+const toast = useToastWithDefaults()
 const { clear } = useUserSession()
 
 await clear()
-toastWithDefault(toast, {
+toast.add({
   severity: "success",
   summary: "Logout successful",
   detail: `Successfully logged out`,
