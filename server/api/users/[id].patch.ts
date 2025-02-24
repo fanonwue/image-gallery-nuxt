@@ -1,6 +1,6 @@
 import {eventHandler, readValidatedBody} from "#imports";
 import {UpdateUserSchema} from "#shared/dto";
-import {requireUserId, toDto, updateUser} from "$server/lib/auth-utils";
+import {requireUserId, toDto, updateSessionWithUser, updateUser} from "$server/lib/auth-utils";
 import {z} from "zod";
 
 export default eventHandler(async (event) => {
@@ -8,9 +8,16 @@ export default eventHandler(async (event) => {
         id: z.string()
     }).parse);
 
-    if (routeParams.id !== await requireUserId(event)) throw createError({ status: 403, message: "You are not allowed to update this user" })
+    const currentUserId = await requireUserId(event)
+
+    if (routeParams.id !== currentUserId) throw createError({ status: 403, message: "You are not allowed to update this user" })
 
     const body = await readValidatedBody(event, UpdateUserSchema.parse)
 
-    return toDto(await updateUser(routeParams.id, body));
+    const updatedUser = await updateUser(routeParams.id, body)
+    const dto = toDto(updatedUser)
+    if (updatedUser.id === currentUserId) {
+        await updateSessionWithUser(event, dto)
+    }
+    return dto;
 })

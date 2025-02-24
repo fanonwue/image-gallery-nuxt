@@ -11,7 +11,7 @@ export const updateUser = async (userId: string, userDto: UpdateUserDto): Promis
     if (userDto.username) updateData.username = userDto.username;
 
     try {
-        return prisma.user.update({
+        return await prisma.user.update({
             where: {id: userId},
             data: updateData,
         })
@@ -52,3 +52,12 @@ export const toDto = (user: Prisma.UserGetPayload<any>): UserDto => {
         updatedAt: user.updatedAt.toISOString(),
     }
 }
+
+export const updateSessionWithUser = (event: H3Event, user: UserDto) => setUserSession(event, {
+    user: {
+        id: user.id,
+        email: user.email,
+        username: user.username
+    },
+    loggedInAt: new Date()
+})

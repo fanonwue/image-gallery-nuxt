@@ -13,7 +13,7 @@ useHeadSafe({
   title: 'Your Profile'
 })
 
-const { user } = useUserSession()
+const { user, fetch: refreshSession } = useUserSession()
 const toast = useToastWithDefaults()
 
 const { data: currentUser, refresh: refreshUser } = await useFetch<UserDto>(`/api/users/${user.value!.id}`)
@@ -38,7 +38,10 @@ const onSave = async () => {
       severity: "success",
       summary: "Successfully updated user information",
     })
-    await refreshUser()
+    await Promise.all([
+      refreshUser(),
+      refreshSession()
+    ])
   } catch (_) {
     toast.add({
       severity: "error",

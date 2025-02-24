@@ -1,6 +1,6 @@
 import {eventHandler} from "#imports";
 import {prisma} from "$server/lib/db";
-import {verifyPassword} from "$server/lib/auth-utils";
+import {updateSessionWithUser, verifyPassword, toDto} from "$server/lib/auth-utils";
 import {LoginRequestSchema} from "#shared/dto";
 
 export default eventHandler(async event => {
@@ -18,14 +18,7 @@ export default eventHandler(async event => {
     if (!user || !user.active) throw loginError
     const passwordVerified = await verifyPassword(user.password, loginRequest.password)
     if (!passwordVerified) throw loginError
-    return setUserSession(event, {
-        user: {
-            id: user.id,
-            email: user.email,
-            username: user.username
-        },
-        loggedInAt: new Date()
-    })
+    return updateSessionWithUser(event, toDto(user))
 })
 
 const loginError = createError({ status: 401, message: "Invalid credentials" })
