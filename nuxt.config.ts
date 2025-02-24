@@ -1,11 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import {fileURLToPath} from "node:url";
-import Aura from '@primevue/themes/aura';
-import {definePreset} from "@primeuix/styled";
+import GalleryTheme from "./utils/gallery-theme";
 
-const GalleryTheme = definePreset(Aura, {
 
-})
 
 export default defineNuxtConfig({
   modules: [

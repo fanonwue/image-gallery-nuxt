@@ -171,7 +171,7 @@ const copyLink = async () => {
   try {
     await navigator.clipboard.writeText(location.origin + imageUrl)
     toast.add({
-      severity: "secondary",
+      severity: "info",
       summary: "Link copied to clipboard"
     })
   } catch (_) {
