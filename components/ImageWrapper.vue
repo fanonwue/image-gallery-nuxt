@@ -5,8 +5,10 @@ import {imageRoundedClassesString} from "#utils/client";
 const props = withDefaults(defineProps<{
   image: ImageDto,
   rounded?: boolean,
-  variant?: ImageVariant
+  variant?: ImageVariant,
+  heightLimit?: string
 }>(), {
+  heightLimit: "100vh",
   rounded: true,
   variant: "original"
 })
@@ -16,11 +18,7 @@ const imageUrl = computed(() => props.variant == "original" ? props.image.origin
 </script>
 
 <template>
-  <picture class="">
-    <img class="max-h-screen aspect-auto w-full" :class="imageRoundedClassesString(rounded)" :src="imageUrl" :alt="image.title"/>
+  <picture>
+    <img class="w-full h-auto aspect-auto" :style="`max-height: ${props.heightLimit}`" :class="imageRoundedClassesString(rounded)" :src="imageUrl" :alt="image.title"/>
   </picture>
 </template>
-
-<style scoped>
-
-</style>

@@ -24,7 +24,9 @@ const fullImageLink = computed(() => {
 <template>
   <div class="image-container flex justify-center shadow-lg shadow-gray-500" :class="imageRoundedClassesString(rounded)">
     <nuxt-link v-if="fullImageLink" :to="fullImageLink">
+  <div class="mx-auto max-w-max h-4/5 shadow-lg shadow-gray-500" :class="imageRoundedClassesString(rounded)">
       <image-wrapper :image="image" :rounded="rounded" :variant="variant" />
+  <div class="w-fit mx-auto shadow-lg shadow-gray-500" :class="imageRoundedClassesString(rounded)">
     </nuxt-link>
     <image-wrapper v-else :image="image" :rounded="rounded" :variant="variant" />
   </div>
