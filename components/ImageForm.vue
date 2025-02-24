@@ -169,7 +169,7 @@ const copyLink = () => {
   const imageUrl = getImageUrl(props.image, imageVariant.value)
   if (!imageUrl) return
   try {
-    navigator.clipboard.writeText(imageUrl)
+    navigator.clipboard.writeText(location.origin + imageUrl)
     toast.add({
       severity: "secondary",
       summary: "Link copied to clipboard"
