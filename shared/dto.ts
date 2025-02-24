@@ -22,7 +22,7 @@ export const parseJson = <T extends ZodRawShape>(schema: ZodObject<T>)=> {
 
 export const UserSchema = z.object({
     id: z.string(),
-    username: z.string(),
+    username: z.string().min(1),
     email: z.string().email(),
     createdAt: z.string(),
     updatedAt: z.string(),
@@ -38,13 +38,13 @@ export type UserDto = z.infer<typeof UserSchema>
 export const ImageMetaSchema = z.record(z.string())
 
 const ImageDataSchema = z.object({
-    title: z.string(),
+    title: z.string().min(1),
     description: z.string(),
     meta: ImageMetaSchema.optional()
 })
 
 export const FolderDataSchema = z.object({
-    name: z.string(),
+    name: z.string().min(1),
     description: z.string(),
 })
 
@@ -112,8 +112,8 @@ export const GetImageQuerySchema = z.object({
 export type GetImageQuery = z.infer<typeof GetImageQuerySchema>
 
 export const LoginRequestSchema = z.object({
-    identifier: z.string(),
-    password: z.string(),
+    identifier: z.string().min(1),
+    password: z.string().min(1),
 })
 
 export type LoginRequest = z.infer<typeof LoginRequestSchema>

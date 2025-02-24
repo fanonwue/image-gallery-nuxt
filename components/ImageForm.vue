@@ -194,9 +194,9 @@ const copyLink = () => {
     <template #content>
       <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
-          <Form>
+          <Form @submit="onSave">
             <float-label variant="in">
-              <input-text class="w-full" id="title" v-model="localImage.title" />
+              <input-text class="w-full" id="title" v-model="localImage.title" required />
               <label for="title">Title</label>
             </float-label>
             <float-label variant="in" class="mt-3">
@@ -221,7 +221,7 @@ const copyLink = () => {
             </float-label>
             <Divider />
             <ButtonGroup class="w-full mt-3">
-              <Button class="w-full" type="submit" :loading="isBusyOrRefreshing" @click="onSave">Save</Button>
+              <Button class="w-full" type="submit" :loading="isBusyOrRefreshing">Save</Button>
               <Button v-if="image" class="w-full" type="button" :loading="isBusyOrRefreshing"
                       @click="onCancel" severity="secondary">Cancel</Button>
             </ButtonGroup>

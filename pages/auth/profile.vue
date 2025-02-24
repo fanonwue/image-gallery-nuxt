@@ -50,13 +50,13 @@ const onSave = async () => {
         </CardHeader>
       </template>
       <template #content>
-        <Form>
+        <Form @submit="onSave">
           <float-label variant="in">
-            <input-text fluid id="username" v-model="userUpdate.username" />
+            <input-text fluid id="username" v-model="userUpdate.username" required />
             <label for="username">Username</label>
           </float-label>
           <float-label variant="in" class="mt-3">
-            <input-text fluid id="email" v-model="userUpdate.email" />
+            <input-text fluid id="email" v-model="userUpdate.email" required type="email" />
             <label for="email">Email</label>
           </float-label>
           <float-label variant="in" class="mt-3">
@@ -64,7 +64,7 @@ const onSave = async () => {
             <label for="password">Password</label>
           </float-label>
           <Divider />
-          <Button fluid label="Save" type="submit" :loading="isBusy" @click="onSave"></Button>
+          <Button fluid label="Save" type="submit" :loading="isBusy"></Button>
         </Form>
       </template>
     </Card>

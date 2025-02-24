@@ -107,19 +107,19 @@ const onDelete = async () => {
     <template #content>
       <p class="mb-3">Please select the folder you wish to edit. Clear the selection to create a new folder.</p>
       <FolderSelection v-model="selectedFolder" :folders="folders ?? []" :add-default="false" />
-      <Form v-if="localFolder">
+      <Form v-if="localFolder" @submit="onSave">
         <Divider />
         <float-label variant="in">
-          <input-text class="w-full" id="name" v-model="localFolder.name" />
+          <input-text class="w-full" id="name" v-model="localFolder.name" required />
           <label for="name">Name</label>
         </float-label>
         <float-label variant="in" class="mt-3">
-          <Textarea class="w-full" id="description" v-model="localFolder.description" rows="5" />
+          <Textarea class="w-full" id="description" v-model="localFolder.description" rows="5"/>
           <label for="description">Description</label>
         </float-label>
         <Divider />
         <ButtonGroup class="w-full mt-3">
-          <Button class="w-full" type="submit" :loading="isBusyOrRefreshing" @click="onSave">
+          <Button class="w-full" type="submit" :loading="isBusyOrRefreshing">
             {{ isNew ? "Create" : "Save" }}
           </Button>
           <Button v-if="!isNew" class="w-full" type="button" :loading="isBusyOrRefreshing"
