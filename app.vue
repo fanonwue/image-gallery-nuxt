@@ -13,6 +13,7 @@ useHead({
   <div>
     <Toast />
     <NuxtLayout />
+    <ConfirmDialog></ConfirmDialog>
   </div>
 </template>
 
