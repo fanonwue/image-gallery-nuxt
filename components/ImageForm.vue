@@ -163,6 +163,24 @@ const onFileClear = async () => {
   file.value = undefined
   fileSrc.value = undefined
 }
+
+const copyLink = () => {
+  if (!props.image || !imageVariant.value) return
+  const imageUrl = getImageUrl(props.image, imageVariant.value)
+  if (!imageUrl) return
+  try {
+    navigator.clipboard.writeText(imageUrl)
+    toast.add({
+      severity: "secondary",
+      summary: "Link copied to clipboard"
+    })
+  } catch (_) {
+    toast.add({
+      severity: "error",
+      summary: "Could not copy link to clipboard"
+    })
+  }
+}
 </script>
 
 <template>
@@ -218,6 +236,10 @@ const onFileClear = async () => {
           <image-display :image="image" :variant="imageVariant" :link-to-image-file="true" />
           <div class="flex justify-center mt-5">
             <SelectButton v-model="imageVariant" :options="variants" :allow-empty="false"></SelectButton>
+            <Button class="ml-4" severity="secondary" size="small" @click="copyLink">
+              <Icon name="material-symbols-light:file-copy-rounded" size="1.2em"></Icon>
+              <span>Copy Link</span>
+            </Button>
           </div>
         </div>
         <div v-else class="flex items-center justify-center">
