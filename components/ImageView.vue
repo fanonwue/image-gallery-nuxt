@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<{
         <Divider></Divider>
       </template>
       <template #content>
-        <image-display class="-m-4 -mt-7" :image="image" variant="thumbnail" :add-link="true" />
+        <image-display class="-m-4 -mt-7" :image="image" variant="thumbnail" :link-to-image-view="true" />
       </template>
       <template #footer>
         <Divider></Divider>

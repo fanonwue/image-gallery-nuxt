@@ -1,33 +1,42 @@
 <script setup lang="ts">
 import type {ImageDto, ImageVariant} from "#shared/dto";
 import {imageRoundedClassesString} from "#utils/client";
+import type {AnchorTarget} from "#shared/types";
 
 const props = withDefaults(defineProps<{
   image: ImageDto,
-  addLink?: boolean,
+  linkToImageView?: boolean,
+  linkToImageFile?: boolean
   compact?: boolean,
   rounded?: boolean,
   variant?: ImageVariant
 }>(), {
-  addLink: false,
+  linkToImageView: false,
+  linkToImageFile: false,
   compact: false,
   rounded: true,
   variant: "original",
 })
 
-const fullImageLink = computed(() => {
-  if (!props.addLink) return undefined
-  return `/gallery/images/${props.image.id}`
+const imageHeightLimit = computed(() => {
+  if (!props.compact) return '80vh'
+})
+
+const imageLink = computed(() => {
+  if (props.linkToImageView) return `/gallery/images/${props.image.id}`
+  if (props.linkToImageFile) return getImageUrl(props.image, props.variant)
+})
+const linkTarget = computed((): AnchorTarget => {
+  if (props.linkToImageFile) return '_blank'
+  return '_self'
 })
 </script>
 
 <template>
-  <div class="image-container flex justify-center shadow-lg shadow-gray-500" :class="imageRoundedClassesString(rounded)">
-    <nuxt-link v-if="fullImageLink" :to="fullImageLink">
-  <div class="mx-auto max-w-max h-4/5 shadow-lg shadow-gray-500" :class="imageRoundedClassesString(rounded)">
-      <image-wrapper :image="image" :rounded="rounded" :variant="variant" />
   <div class="w-fit mx-auto shadow-lg shadow-gray-500" :class="imageRoundedClassesString(rounded)">
+    <nuxt-link v-if="imageLink" :to="imageLink" :external="linkToImageFile" :target="linkTarget">
+      <image-wrapper :image="image" :rounded="rounded" :variant="variant" :height-limit="imageHeightLimit" />
     </nuxt-link>
-    <image-wrapper v-else :image="image" :rounded="rounded" :variant="variant" />
+    <image-wrapper v-else :image="image" :rounded="rounded" :variant="variant" :height-limit="imageHeightLimit" />
   </div>
 </template>

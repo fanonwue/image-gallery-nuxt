@@ -1,3 +1,5 @@
+import type {ImageDto, ImageVariant} from "#shared/dto";
+
 export const defaultPageSize = 20
 export const maxPageSize = 100
 
@@ -17,3 +19,6 @@ export const timeout = (timeout: number): Promise<void> => {
 }
 
 export const debugMode = import.meta.env.MODE === "development"
+
+export const getImageUrl = (image: ImageDto, variant: ImageVariant) =>
+    variant == "original" ? image.originalUrl : image.thumbnailUrl

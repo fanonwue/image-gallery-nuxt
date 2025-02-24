@@ -1,0 +1,1 @@
+export type AnchorTarget = '_blank' | '_self' | '_top' | '_parent' | string;

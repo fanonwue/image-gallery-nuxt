@@ -215,8 +215,8 @@ onBeforeMount(async () => {
                     @click="onDelete" severity="danger">Delete</Button>
           </Form>
         </div>
-        <div v-if="image" class="">
-          <image-display class="max-h-screen" :image="image" :variant="imageVariant" />
+        <div v-if="image">
+          <image-display :image="image" :variant="imageVariant" :link-to-image-file="true" />
           <div class="flex justify-center mt-5">
             <SelectButton v-model="imageVariant" :options="variants" :allow-empty="false"></SelectButton>
           </div>

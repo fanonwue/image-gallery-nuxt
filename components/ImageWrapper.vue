@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {ImageDto, ImageVariant} from "#shared/dto";
 import {imageRoundedClassesString} from "#utils/client";
+import {getImageUrl} from "#utils";
 
 const props = withDefaults(defineProps<{
   image: ImageDto,
@@ -14,7 +15,7 @@ const props = withDefaults(defineProps<{
 })
 
 
-const imageUrl = computed(() => props.variant == "original" ? props.image.originalUrl : props.image.thumbnailUrl)
+const imageUrl = computed(() => getImageUrl(props.image, props.variant))
 </script>
 
 <template>
