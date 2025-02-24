@@ -45,13 +45,16 @@ export default eventHandler(async (event) => {
     if (!format || !thumbnailFormats.includes(format)) format = undefined
 
     const filePath = imageFilePath(image.id, variant, format)
+    let contentType = image.mimeType
+    // If a non-original variant is requested, we need to determine the actual content type by its file name
+    if (variant != 'original') {
+        contentType = mime.getType(filePath) ?? contentType
+    }
 
     try {
         const fileStat = await stat(filePath)
         const etag = calculateEtag(`${fileStat.mtime.toISOString()}__${fileStat.size}`)
         const readStream = createReadStream(filePath)
-
-        const contentType = image.mimeType
         const fileName = `${image.title}.${mime.getExtension(contentType)}`
 
         setResponseStatus(event, 200)
