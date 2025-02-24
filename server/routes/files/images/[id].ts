@@ -53,7 +53,7 @@ export default eventHandler(async (event) => {
 
     try {
         const fileStat = await stat(filePath)
-        const etag = calculateEtag(`${fileStat.mtime.toISOString()}__${fileStat.size}`)
+        const etag = calculateEtag(`${image.id}__${fileStat.mtime.getTime()}__${fileStat.size}`)
         const readStream = createReadStream(filePath)
         const fileName = `${image.title}.${mime.getExtension(contentType)}`
 
