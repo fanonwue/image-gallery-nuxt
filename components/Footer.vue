@@ -12,7 +12,7 @@ const yearPeriod = () => {
 <template>
   <div class="mx-auto">
     <Divider />
-    <a :href="repositoryUrl" target="_blank">{{ appName }} - a simple gallery manager written with Nuxt 3!</a><br>
+    <a :href="repositoryUrl" target="_blank">{{ appName }} - a simple gallery manager written with Nuxt 3! (click to view source code)</a><br>
     © {{ yearPeriod() }} Fabian Wünderich
   </div>
 </template>
