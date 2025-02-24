@@ -1,4 +1,5 @@
 import type {ImageDto, ImageVariant} from "#shared/dto";
+export { default as mime } from "mime/lite"
 
 export const defaultPageSize = 20
 export const maxPageSize = 100

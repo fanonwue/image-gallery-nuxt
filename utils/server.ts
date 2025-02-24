@@ -1,9 +1,9 @@
 import crypto from "node:crypto"
 import type {MultiPartData} from "h3";
-import mime from "mime";
 import type {PathLike} from "node:fs";
 import {access, mkdir} from "node:fs/promises";
 import {generateExternalId} from "$server/lib/image-utils";
+import {mime} from "#utils"
 
 export const randomBytes = (length: number) => crypto.randomBytes(length)
 export const bytesToBase64 = (buf: Buffer|Uint8Array, urlSafe: boolean = true) => {

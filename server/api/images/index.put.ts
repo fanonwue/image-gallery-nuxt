@@ -3,8 +3,6 @@ import {ImageDto, NewImageSchema, parseJson} from "~/shared/dto";
 import {addMetaIfExists, generateExternalId, imageFilePath, toDto} from "~/server/lib/image-utils";
 import {prisma} from "~/server/lib/db";
 import {Image, Prisma} from "@prisma/client";
-import {currentUserId} from "#utils";
-import mime from "mime";
 import {imageUpdateRequestMultipart, isAcceptedMimeType, saveFile} from "~/server/api/images/image-operations";
 import {mimeTypeFromMultipartFile} from "#utils/server";
 import {processImage} from "$server/lib/thumbnail";

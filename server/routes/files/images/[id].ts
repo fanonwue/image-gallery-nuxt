@@ -3,9 +3,9 @@ import {prisma} from "~/server/lib/db";
 import {imageFilePath, toExternalId} from "~/server/lib/image-utils";
 import {stat} from "node:fs/promises";
 import {createReadStream} from "node:fs";
-import mime from "mime";
 import type {ImageFormat, ImageVariant} from "#shared/dto";
 import {thumbnailFormats} from "#shared/dto";
+import {mime} from "#utils";
 import {calculateEtag} from "#utils/server";
 
 export default eventHandler(async (event) => {
