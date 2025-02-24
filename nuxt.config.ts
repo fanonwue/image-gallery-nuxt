@@ -1,7 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import {fileURLToPath} from "node:url";
 import Aura from '@primevue/themes/aura';
-import Material from '@primevue/themes/material';
+import {definePreset} from "@primeuix/styled";
+
+const GalleryTheme = definePreset(Aura, {
+
+})
 
 export default defineNuxtConfig({
   modules: [
@@ -33,7 +37,7 @@ export default defineNuxtConfig({
     options: {
       ripple: true,
       theme: {
-        preset: Aura,
+        preset: GalleryTheme,
       }
     }
   }

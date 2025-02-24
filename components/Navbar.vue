@@ -8,6 +8,7 @@ interface MenuItemWithRoute extends MenuItem {
 
 const navIconSize = '1.5em'
 const { loggedIn, user } = useUserSession()
+const expanded = ref(false)
 
 const route = useRoute()
 const isCurrentRoute = (path: string) => {
@@ -53,6 +54,7 @@ const items = computed((): MenuItem[] => {
     },
     {
       label: 'Gallery',
+      icon: 'material-symbols-light:gallery-thumbnail-rounded',
       items: [
         {
           label: 'View',
@@ -61,7 +63,7 @@ const items = computed((): MenuItem[] => {
         },
         {
           label: 'New',
-          icon: 'material-symbols-light:add-photo-alternate-rounded',
+          icon: 'material-symbols-light:add-box-rounded',
           route: "/gallery/images/new"
         },
         {
@@ -73,6 +75,7 @@ const items = computed((): MenuItem[] => {
     },
     {
       label: 'Profile',
+      icon: 'material-symbols-light:person-rounded',
       items: profileItems
     },
     {
@@ -83,31 +86,27 @@ const items = computed((): MenuItem[] => {
 </script>
 
 <template>
-  <aside class="h-screen sticky top-0 w-64">
-    <Menu :model="items" class="h-full w-full md:w-60 overflow-y-scroll">
-      <template #start>
-        <div class="my-2 font-bold text-center">{{ appName }}</div>
-      </template>
-      <template #item="{ item, props }">
-        <nuxt-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-          <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-            <Icon v-if="item.icon" :name="item.icon" :size="navIconSize" />
-            <span class="ml-2">{{ item.label }}</span>
-          </a>
-        </nuxt-link>
-        <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+  <Menubar :model="items">
+    <template #start>
+      <div class="my-2 font-bold text-center">{{ appName }}</div>
+    </template>
+    <template #item="{ item, props }">
+      <nuxt-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+        <a v-ripple :href="href" v-bind="props.action" @click="navigate">
           <Icon v-if="item.icon" :name="item.icon" :size="navIconSize" />
           <span class="ml-2">{{ item.label }}</span>
         </a>
-      </template>
-      <template #end>
-        <div v-if="user" class="relative overflow-hidden w-full border-0 bg-transparent p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none transition-colors duration-200">
-          <div class="text-sm">Logged in as:</div>
-          <div class="font-bold">{{ user.email }}</div>
-
-        </div>
-      </template>
-    </Menu>
-  </aside>
-
+      </nuxt-link>
+      <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+        <Icon v-if="item.icon" :name="item.icon" :size="navIconSize" />
+        <span class="ml-2">{{ item.label }}</span>
+      </a>
+    </template>
+    <template #end>
+      <div v-if="user">
+        <div class="text-sm">Logged in as:</div>
+        <div class="font-bold">{{ user.email }}</div>
+      </div>
+    </template>
+  </Menubar>
 </template>
