@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {UpdateUserDto, UserDto} from "#shared/dto";
-import {watch} from "#imports";
+import {useToastWithDefaults} from "#imports";
 import {$fetch} from "ofetch";
 import {Form} from "@primevue/forms";
 import CardHeader from "~/components/CardHeader.vue";
@@ -14,6 +14,7 @@ useHeadSafe({
 })
 
 const { user } = useUserSession()
+const toast = useToastWithDefaults()
 
 const { data: currentUser, refresh: refreshUser } = await useFetch<UserDto>(`/api/users/${user.value!.id}`)
 
@@ -33,7 +34,16 @@ const onSave = async () => {
       method: "PATCH",
       body: userUpdate.value,
     })
+    toast.add({
+      severity: "success",
+      summary: "Successfully updated user information",
+    })
     await refreshUser()
+  } catch (_) {
+    toast.add({
+      severity: "error",
+      summary: "Failed to update user information",
+    })
   } finally {
     isBusy.value = false
   }
