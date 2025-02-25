@@ -59,7 +59,7 @@ export default eventHandler(async (event) => {
 
         setResponseStatus(event, 200)
         setResponseHeaders(event,{
-            "Content-Size": fileStat.size,
+            "Content-Length": fileStat.size,
             "Content-Type": contentType,
             "Content-Disposition": `inline; filename=${fileName}`,
             "ETag": `"${etag}"`,
